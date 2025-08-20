@@ -403,33 +403,285 @@
 //      echo "Final Total: {$finaltotal}"."<br>";
 
 
-$amount = 3760;
-$notes = [2000, 500, 200, 100, 50, 10];
-$count = [];
+// $amount = 3760;
+// $notes = [2000, 500, 200, 100, 50, 10];
+// $count = [];
 
-while ($amount > 0) {
-    if ($amount >= 2000) {
-        $amount -= 2000;
-        $count[2000] = ($count[2000] ?? 0) + 1;
-    } elseif ($amount >= 500) {
-        $amount -= 500;
-        $count[500] = ($count[500] ?? 0) + 1;
-    } elseif ($amount >= 200) {
-        $amount -= 200;
-        $count[200] = ($count[200] ?? 0) + 1;
-    } elseif ($amount >= 100) {
-        $amount -= 100;
-        $count[100] = ($count[100] ?? 0) + 1;
-    } elseif ($amount >= 50) {
-        $amount -= 50;
-        $count[50] = ($count[50] ?? 0) + 1;
-    } elseif ($amount >= 10) {
-        $amount -= 10;
-        $count[10] = ($count[10] ?? 0) + 1;
+// while ($amount > 0) {
+//     if ($amount >= 2000) {
+//         $amount -= 2000;
+//         $count[2000] = ($count[2000] ?? 0) + 1;
+//     } elseif ($amount >= 500) {
+//         $amount -= 500;
+//         $count[500] = ($count[500] ?? 0) + 1;
+//     } elseif ($amount >= 200) {
+//         $amount -= 200;
+//         $count[200] = ($count[200] ?? 0) + 1;
+//     } elseif ($amount >= 100) {
+//         $amount -= 100;
+//         $count[100] = ($count[100] ?? 0) + 1;
+//     } elseif ($amount >= 50) {
+//         $amount -= 50;
+//         $count[50] = ($count[50] ?? 0) + 1;
+//     } elseif ($amount >= 10) {
+//         $amount -= 10;
+//         $count[10] = ($count[10] ?? 0) + 1;
+//     }
+// }
+
+// foreach ($count as $note => $num) {
+//     echo "₹$note x $num\n";
+// }
+
+// $students = [
+//     ["name" => "Avi", "marks" => [85, 72, 90]],
+//     ["name" => "Meera", "marks" => [65, 70, 60]],
+//     ["name" => "Riya", "marks" => [92, 88, 95]]
+// ];
+// $count = 0;
+// foreach($students as $student){
+//     echo "Student: {$student['name']}"."<br>";
+//     echo "Marks: ";
+
+//     foreach ($student['marks'] as $mark) {
+//         echo $mark . " ";
+//     }
+//     echo "<br>";
+
+// $i = 0;
+// while($i < count($student['marks'])){
+//     if($student['marks'][$i] >= 80){
+//         $count++;
+//     }
+//     $i++;
+// }
+// }
+// echo "Total marks > 80:{$count}"."<br>";
+
+// $balance = 1000;
+// do{
+//     echo "ATM Menu"."<br>";
+//     echo "1.Check Balance"."<br>";
+//     echo "2.Deposit"."<br>";
+//     echo "3.Withdraw"."<br>";
+//     echo "4. Exit"."<br>";
+
+//     $choice = (int)readline("Enter your choice: ");
+
+//     switch($choice){
+//         case 1: 
+//             echo "Your Balance is: $balance\n";
+//             break;
+        
+//         case 2:
+//             $amount = (int)readline("Enter amount to deposit: ");
+//             if($amount > 0){
+//                 $balance += $amount;
+//                 echo "Deposited: $amount. New Balance: $balance\n";
+//             }else{
+//                 echo "Invalid deposit amount!\n";
+//             }
+//             break;
+
+//          case 3:
+//             $amount = (int)readline("Enter amount to withdraw: ");
+//             if($amount > 0 && $amount <= $balance){
+//                 $balance -= $amount;
+//                 echo "Withdrawn: $amount. New Balance: $balance\n";
+//             }else{
+//                 echo "Insufficient balance or invalid amount!\n";
+//             }
+//            break;      
+
+//         case 4:
+//             echo "Exiting... Thank you for using ATM.\n";
+//             break;
+        
+//         default:
+//             echo "Invalid choice. Please try again.\n";
+//             break;
+   
+
+//     }
+
+
+// }while($choice != 4);
+
+
+// $secret = rand(1,10);
+// $attempts = 0;
+
+// do{
+//     $guess =(int) readline("Guess a number (1-10): ");
+//     if ($guess < 1 || $guess > 10) {
+//         echo "Out of range. Please enter a number between 1 and 10.\n";
+//         continue; // jump to the loop check and then start the next iteration
+//     }
+//      $attempts++;
+//     if ($guess == $secret) {
+//         echo "Correct!\n";
+//     } elseif ($guess < $secret) {
+//         echo "Too low. Try again.\n";
+//     } else {
+//         echo "Too high. Try again.\n";
+//     }
+// }while($guess !== $secret);
+
+// echo "You got it in $attempts attempt(s)!\n";
+
+// $choice = 0;
+
+// do{
+//     echo "Simple Calculator\n";
+//     echo "1. Addition\n";
+//     echo "2.Substraction\n";
+//     echo "3.Multiplication\n";
+//     echo "4.Divison\n";
+//     echo "5.Exit\n";
+
+//     $choice = (int)readline("Enter choice (1-5): ");
+
+//     switch($choice){
+//         case 1:
+//             $a =(float) readline("Enter first number");
+//             $b = (float) readline("Enter secound number");
+//             $result = $a + $b;
+//             echo "Result: $result\n";
+//         break;
+
+//         case 2: // Subtraction
+//             $a = (float) readline("Enter first number: ");
+//             $b = (float) readline("Enter second number: ");
+//             $result = $a - $b;                              // subtraction
+//             echo "Result: $a - $b = $result\n";
+//         break;
+
+//         case 3: // Multiplication
+//             $a = (float) readline("Enter first number: ");
+//             $b = (float) readline("Enter second number: ");
+//             $result = $a * $b;                              // multiplication
+//             echo "Result: $a * $b = $result\n";
+//         break;
+
+//         case 4: // Division
+//             $a = (float) readline("Enter numerator: ");
+//             $b = (float) readline("Enter denominator: ");
+
+//             // guard against division by zero
+//             if ($b == 0.0) {                                // use if to protect from invalid math
+//                 echo "Error: Cannot divide by zero.\n";     // explain the issue to the user
+//                 break;                                      // exit this case without calculating
+//             }
+
+//             $result = $a / $b;                              // safe division
+//             echo "Result: $a / $b = $result\n";
+//         break;
+
+//         case 5: // Exit
+//             echo "Goodbye! 👋\n";                           // friendly exit message
+//             break;                                          // (not strictly needed, but consistent)
+
+//         default: // any number not in 1..5
+//             echo "Invalid choice. Please select 1-5.\n";  
+
+//     }
+// }while ($choice !== 5); 
+
+// $secret = rand(1, 20); 
+// $attempts = 5;
+// $attemptsCount = 0;
+// $guess = null;
+
+// do{
+//     $guess = (int)readline("Guess a number (1-20): ");
+
+//      if ($guess < 1 || $guess > 20) {
+//         echo "Out of range. Please enter a number between 1 and 20.\n";
+//         continue;
+//      }
+//         $attemptsCount++;
+//         if ($guess === $secret) {
+//             echo "Correct!\n";
+//         } elseif ($guess < $secret) {
+//             echo "Too low. Try again.\n";
+//         } else{
+//             echo "Too high. Try again.\n";
+//         }
+
+
+// }while($guess !== $secret && $attemptsCount < $attempts);
+
+// if ($guess === $secret) {
+//     echo "You got it in {$attemptsCount} attempt(s)!" . PHP_EOL;
+// } else {
+//     echo "Game Over! The number was {$secret}." . PHP_EOL;
+// }
+
+// $students = [
+//     ["name" => "Avi", "Maths" => 55, "Science" => 70, "English" => 40],
+//     ["name" => "Tiya", "Maths" => 38, "Science" => 80, "English" => 75],
+//     ["name" => "Meera", "Maths" => 90, "Science" => 60, "English" => 30],
+// ];
+
+// $subjects = [];
+// foreach($students['0'] as $key => $student){
+
+//     if($key != 'name'){
+//         $subjects[] = $key;
+//     }
+// }
+
+// foreach($students as $student){
+//     $finalStatus = "Pass"; 
+//     foreach($subjects as $subject){
+
+//        $status = ($student[$subject] >= 40) ? 'Pass' : 'Fail';
+
+//         if($student[$subject] == 'Maths' && $status == 'Fail'){
+//             $finalStatus = "Fail ($subject failed)";
+//            continue;
+//         }
+
+//        if($status == 'Fail'){
+//          $finalStatus = "Fail ($subject failed)";
+
+//             break;
+//        }
+//     }
+//     echo "{$student['name']}: {$finalStatus}"."<br>";
+
+// }
+
+$students = [
+    ['name' => 'Avi',   'Maths' => 55, 'Science' => 38, 'English' => 65],
+    ['name' => 'Tiya',  'Maths' => 72, 'Science' => 49, 'English' => 80],
+    ['name' => 'Meera', 'Maths' => 39, 'Science' => 41, 'English' => 20],
+    ['name' => 'Karan', 'Maths' => 90, 'Science' => 92, 'English' => 20],
+];
+
+$subjects = [];
+foreach ($students[0] as $key => $val) {
+    if ($key != 'name') {
+        $subjects[] = $key;
     }
 }
 
-foreach ($count as $note => $num) {
-    echo "₹$note x $num\n";
+foreach($students as $student){
+     $result = "Pass"; 
+        foreach ($subjects as $subject) {
+        $result = ($student[$subject] >= 40) ? 'Pass' : 'Fail';
+
+        // Special rule for Maths
+        if ($subject == 'Maths' && $result == 'Fail') {
+            $result = 'Skipped (Failed in Maths)';
+            break; // stop checking other subjects
+        }
+         if ($subject == 'English' && $result == 'Fail') {
+            $status = 'Needs Improvement in English';
+            break; // stop checking other subjects
+        }
+
+    }
+    echo $student['name']." : ".$result."<br>";
 }
 
