@@ -652,36 +652,148 @@
 
 // }
 
-$students = [
-    ['name' => 'Avi',   'Maths' => 55, 'Science' => 38, 'English' => 65],
-    ['name' => 'Tiya',  'Maths' => 72, 'Science' => 49, 'English' => 80],
-    ['name' => 'Meera', 'Maths' => 39, 'Science' => 41, 'English' => 20],
-    ['name' => 'Karan', 'Maths' => 90, 'Science' => 92, 'English' => 20],
-];
+// $students = [
+//     ['name' => 'Avi',   'Maths' => 55, 'Science' => 38, 'English' => 65],
+//     ['name' => 'Tiya',  'Maths' => 72, 'Science' => 49, 'English' => 80],
+//     ['name' => 'Meera', 'Maths' => 39, 'Science' => 41, 'English' => 20],
+//     ['name' => 'Karan', 'Maths' => 90, 'Science' => 92, 'English' => 20],
+// ];
 
-$subjects = [];
-foreach ($students[0] as $key => $val) {
-    if ($key != 'name') {
-        $subjects[] = $key;
-    }
-}
+// $subjects = [];
+// foreach ($students[0] as $key => $val) {
+//     if ($key != 'name') {
+//         $subjects[] = $key;
+//     }
+// }
 
-foreach($students as $student){
-     $result = "Pass"; 
-        foreach ($subjects as $subject) {
-        $result = ($student[$subject] >= 40) ? 'Pass' : 'Fail';
+// foreach($students as $student){
+//      $result = "Pass"; 
+//         foreach ($subjects as $subject) {
+//         $result = ($student[$subject] >= 40) ? 'Pass' : 'Fail';
 
-        // Special rule for Maths
-        if ($subject == 'Maths' && $result == 'Fail') {
-            $result = 'Skipped (Failed in Maths)';
-            break; // stop checking other subjects
-        }
-         if ($subject == 'English' && $result == 'Fail') {
-            $status = 'Needs Improvement in English';
-            break; // stop checking other subjects
-        }
+//         // Special rule for Maths
+//         if ($subject == 'Maths' && $result == 'Fail') {
+//             $result = 'Skipped (Failed in Maths)';
+//             break; // stop checking other subjects
+//         }
+//          if ($subject == 'English' && $result == 'Fail') {
+//             $status = 'Needs Improvement in English';
+//             break; // stop checking other subjects
+//         }
 
-    }
-    echo $student['name']." : ".$result."<br>";
-}
+//     }
+//     echo $student['name']." : ".$result."<br>";
+// }
 
+// $students = [
+//     ["name" => "Avi", "Maths" => 30, "Science" => 55, "English" => 60],
+//     ["name" => "Meera", "Maths" => 80, "Science" => 70, "English" => 75],
+//     ["name" => "Tiya", "Maths" => 65, "Science" => 55, "English" => 60],
+//     ["name" => "Karan", "Maths" => 40, "Science" => 30, "English" => 35],
+// ];
+// foreach($students as $student){
+//     $subjctname = '';
+//     $average = 0;
+//     echo "{$student['name']} : ";
+//         foreach($student as $key => $value){
+//             if($key == 'name'){
+//                 continue;
+//             }
+//             // echo "<pre>"; print_r($value);
+
+//             if($value <= 35){
+//                 $subjctname = $key;
+//                 $faildata =  "(Failed in {$subjctname})";
+//                 break;
+//             }
+//             $average += $value;
+//         }
+//         $total = $average / 3;
+
+//         if($total >= 75){
+//             echo "Distinction"."<br>";
+//         }elseif($total >= 50 && $total < 75){
+//             echo "Pass"."<br>";
+//         }else{
+//             echo "Fail {$faildata}"."<br>";
+//         }
+// }
+
+//Example 1: Star Pattern (Triangle)
+
+// for($i = 1; $i <= 5; $i++){
+//     for($j = 1; $j <= $i; $j++){
+//         echo "* ";
+//     }
+//     echo "<br>";
+// }
+
+// Example 2: Multiplication Table
+
+// for($i = 1; $i <= 5; $i++){
+//     for($j = 1; $j <= 5; $j++){
+//         echo ($i * $j). "\t";
+//     }
+//     echo "<br>";
+// }
+
+//2. continue Statement (skip values smartly)
+
+// continue = Skip the current iteration and jump to the next.
+
+
+// for ($i = 1; $i <= 10; $i++) {
+//     if ($i % 2 == 0) {
+//         continue; // skip even
+//     }
+//     echo $i . " ";
+// }
+
+// Example 2: Skip Failed Students
+
+// $students = [
+//     ['name' => 'Avi', 'marks' => 25],
+//     ['name' => 'Meera', 'marks' => 80],
+//     ['name' => 'Tiya', 'marks' => 45],
+//     ['name' => 'Karan', 'marks' => 30]
+// ];
+
+// foreach ($students as $s) {
+//     if ($s['marks'] < 35) {
+//         continue; // Skip failed
+//     }
+//     echo $s['name'] . " : " . $s['marks'] . "<br>";
+// }
+
+
+// $students = [
+//     ['name' => 'Avi', 'marks' => 25],
+//     ['name' => 'Meera', 'marks' => 80],
+//     ['name' => 'Tiya', 'marks' => 45],
+//     ['name' => 'Karan', 'marks' => 30]
+// ];
+
+// foreach($students as $student){
+//     if($student['marks'] <= 40 ){
+//         continue;
+//     }
+//     if($student['marks'] > 80){
+//         continue;
+//     }
+//     echo "{$student['name']} : {$student['marks']}"."<br>";
+// }
+
+// Print a pyramid star pattern using nested loops.
+
+// $rows = 5;
+// for ($i = 1; $i <= $rows; $i++) {
+//     // print spaces
+//     for ($j = $i; $j < $rows; $j++) {
+//         echo "&nbsp;&nbsp;"; // spaces
+//     }
+//     // print stars
+//     for ($k = 1; $k <= (2*$i-1); $k++) {
+//         echo "*";
+//     }
+//     echo "<br>";
+// }
