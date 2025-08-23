@@ -460,41 +460,258 @@
 //         }
 //     echo "<br>";
 //  }
-$sales = [
-    ['product' => 'Laptop',    'category' => 'Electronics', 'amount' => 75000, 'region' => 'North'],
-    ['product' => 'Phone',     'category' => 'Electronics', 'amount' => 40000, 'region' => 'South'],
-    ['product' => 'Tablet',    'category' => 'Electronics', 'amount' => 30000, 'region' => 'North'],
-    ['product' => 'Shirt',     'category' => 'Clothing',    'amount' => 2000,  'region' => 'East'],
-    ['product' => 'Jeans',     'category' => 'Clothing',    'amount' => 3500,  'region' => 'East'],
-    ['product' => 'Jacket',    'category' => 'Clothing',    'amount' => 5000,  'region' => 'South'],
-    ['product' => 'Mixer',     'category' => 'Appliances',  'amount' => 7000,  'region' => 'West'],
-    ['product' => 'Toaster',   'category' => 'Appliances',  'amount' => 2500,  'region' => 'West'],
-    ['product' => 'Fridge',    'category' => 'Appliances',  'amount' => 12000, 'region' => 'North'],
+// $sales = [
+//     ['product' => 'Laptop',    'category' => 'Electronics', 'amount' => 75000, 'region' => 'North'],
+//     ['product' => 'Phone',     'category' => 'Electronics', 'amount' => 40000, 'region' => 'South'],
+//     ['product' => 'Tablet',    'category' => 'Electronics', 'amount' => 30000, 'region' => 'North'],
+//     ['product' => 'Shirt',     'category' => 'Clothing',    'amount' => 2000,  'region' => 'East'],
+//     ['product' => 'Jeans',     'category' => 'Clothing',    'amount' => 3500,  'region' => 'East'],
+//     ['product' => 'Jacket',    'category' => 'Clothing',    'amount' => 5000,  'region' => 'South'],
+//     ['product' => 'Mixer',     'category' => 'Appliances',  'amount' => 7000,  'region' => 'West'],
+//     ['product' => 'Toaster',   'category' => 'Appliances',  'amount' => 2500,  'region' => 'West'],
+//     ['product' => 'Fridge',    'category' => 'Appliances',  'amount' => 12000, 'region' => 'North'],
+// ];
+
+// $categorywise = [];
+// foreach($sales as $sale){
+//     $cat = $sale['category'];
+//     $categorywise[$cat][] = $sale;
+// }
+
+
+// foreach($categorywise as $cate => $categorydata){
+//     $total = 0;
+//     $highsale = 0;
+//     $highsalename = '';
+//     foreach($categorydata as $data){
+//         if($data['amount'] > $highsale){
+//             $highsale = $data['amount'];
+//             $highsalename = $data['product'];
+//         }
+//         $total += $data['amount'];
+//     }
+//     $count = count($categorydata);
+//     $average = $total / $count;
+//     // echo "<pre>"; print_r($average);die();
+//     echo "Category: {$cate}"."<br>";
+//     echo "Total Sales: {$total}"."<br>";
+//     echo "Average Sales: {$average}"."<br>";
+//     echo "Top Product: {$highsalename} ($highsale)"."<br><br>";
+// }
+
+// $students = [
+//     ['name' => 'Avi',   'Maths' => 90, 'Science' => 45, 'English' => 78],
+//     ['name' => 'Tiya',  'Maths' => 35, 'Science' => 91, 'English' => 67],
+//     ['name' => 'Meera', 'Maths' => 65, 'Science' => 59, 'English' => 88],
+//     ['name' => 'John',  'Maths' => 49, 'Science' => 38, 'English' => 55],
+// ];
+
+// foreach($students as $student){
+//      $passed = true;
+//          foreach($student as $key => $marks){
+//             if($key != 'name'){
+//                 if($marks < 40){
+//                     $passed = false; 
+//                     break; // no need to check further
+//                 }
+//             }
+//         }
+//         if($passed){
+//         echo $student['name'] . " passed in all subjects.<br>";
+//     }
+// }
+
+// $students = [
+//     ['name' => 'Avi',   'Maths' => 90, 'Science' => 45, 'English' => 78],
+//     ['name' => 'Tiya',  'Maths' => 35, 'Science' => 91, 'English' => 67],
+//     ['name' => 'Meera', 'Maths' => 65, 'Science' => 59, 'English' => 88],
+//     ['name' => 'John',  'Maths' => 49, 'Science' => 38, 'English' => 55],
+// ];
+
+
+// foreach($students as $student){
+//     $fail = false;
+//     foreach($student as $key => $marks){
+//         if($key != 'name'){
+//             if($marks < 40){
+//                 $fail = true;
+//                 break;
+//             }
+//         }
+//     }
+//     if($fail){
+//         echo "{$student['name']} failed in at least one subject."."<br>";
+//     }
+
+// }
+
+// $students = [
+//     ['name' => 'Avi',   'Maths' => 90, 'Science' => 45, 'English' => 78],
+//     ['name' => 'Tiya',  'Maths' => 35, 'Science' => 91, 'English' => 67],
+//     ['name' => 'Meera', 'Maths' => 65, 'Science' => 59, 'English' => 88],
+//     ['name' => 'John',  'Maths' => 49, 'Science' => 38, 'English' => 55],
+// ];
+
+// foreach($students as $student){
+//     $passsubject = 0;
+//     $failsubject = '';
+//     foreach($student as $key => $marks){
+//         if($key != 'name'){
+//             if($marks >= 40){
+//                 $passsubject++;
+//             }else{
+//                 $failsubject = $key;
+//             }
+//         }
+//     }
+//     if($passsubject == 2){
+//     echo "{$student['name']} passed in {$passsubject} subjects, failed in: {$failsubject}"."<br>";
+//     }
+// }
+
+// $students = [
+//     ['name' => 'Avi',   'Maths' => 90, 'Science' => 45, 'English' => 78],
+//     ['name' => 'Tiya',  'Maths' => 35, 'Science' => 91, 'English' => 67],
+//     ['name' => 'Meera', 'Maths' => 65, 'Science' => 59, 'English' => 88],
+//     ['name' => 'John',  'Maths' => 49, 'Science' => 38, 'English' => 55],
+// ];
+
+//  foreach($students as $student){
+//     $total = 0;
+//      foreach($student as $key => $marks){
+//         if($key != 'name'){
+//             $total += $marks; 
+//          }
+//     }
+//     echo "{$student['name']} scored {$total} total marks."."<br>";
+// }
+
+// $students = [
+//     ['name' => 'Avi',   'Maths' => 90, 'Science' => 45, 'English' => 78],
+//     ['name' => 'Tiya',  'Maths' => 35, 'Science' => 91, 'English' => 67],
+//     ['name' => 'Meera', 'Maths' => 65, 'Science' => 59, 'English' => 88],
+//     ['name' => 'John',  'Maths' => 49, 'Science' => 38, 'English' => 55],
+// ];
+
+// foreach($students as $student){
+//     $highsubjectmark = 0;
+//     $highsubject = '';
+//      foreach($student as $key => $marks){
+//         if($key != 'name'){
+//             if($marks > $highsubjectmark){
+//                 $highsubjectmark = $marks;
+//                 $highsubject = $key;
+//             }
+//         }
+//     }
+//     echo "{$student['name']}’s best subject is {$highsubject} ({$highsubjectmark})."."<br>";
+// }
+// Avi’s best subject is Maths (90).
+
+
+// $students = [
+//     ['name' => 'Avi',   'Maths' => 90, 'Science' => 45, 'English' => 78],
+//     ['name' => 'Tiya',  'Maths' => 35, 'Science' => 91, 'English' => 67],
+//     ['name' => 'Meera', 'Maths' => 65, 'Science' => 59, 'English' => 88],
+//     ['name' => 'John',  'Maths' => 49, 'Science' => 38, 'English' => 55],
+// ];
+
+// foreach($students as $student){
+//     $failsubjects = []; // store multiple fail subjects
+//     foreach($student as $key => $marks){
+//          if($key != 'name'){
+//             if($marks < 40){
+//                $failsubjects[] = $key;
+//             }
+//         }
+//     }
+//      foreach($failsubjects as $subject){
+//         echo "{$subject} : {$student['name']}<br>";
+//      }
+// }
+
+// $students = [
+//     ['name' => 'Avi',   'Maths' => 90, 'Science' => 45, 'English' => 78],
+//     ['name' => 'Tiya',  'Maths' => 35, 'Science' => 91, 'English' => 67],
+//     ['name' => 'Meera', 'Maths' => 65, 'Science' => 59, 'English' => 88],
+//     ['name' => 'John',  'Maths' => 49, 'Science' => 38, 'English' => 55],
+// ];
+
+// foreach($students as $student){
+//     $failcount = 0;
+//     foreach($student as $key => $marks){
+//          if($key != 'name'){
+//              if($marks < 40){
+//                 $failcount++;
+//              }
+//          }
+//     }
+//     if($failcount == 0){
+//         echo "{$student['name']} : All Passed"."<br>";
+//     }else{
+//          echo "{$student['name']} : $failcount"."<br>";
+//     }
+// }
+
+
+$students = [
+    ['name' => 'Avi',   'Maths' => 90, 'Science' => 45, 'English' => 78],
+    ['name' => 'Tiya',  'Maths' => 35, 'Science' => 91, 'English' => 67],
+    ['name' => 'Meera', 'Maths' => 65, 'Science' => 59, 'English' => 88],
+    ['name' => 'John',  'Maths' => 49, 'Science' => 38, 'English' => 55],
 ];
 
-$categorywise = [];
-foreach($sales as $sale){
-    $cat = $sale['category'];
-    $categorywise[$cat][] = $sale;
-}
+$subjects = ['Maths', 'Science', 'English'];
+$failsBySubject = [
+    'Maths' => [],
+    'Science' => [],
+    'English' => []
+];
 
-
-foreach($categorywise as $cate => $categorydata){
-    $total = 0;
-    $highsale = 0;
-    $highsalename = '';
-    foreach($categorydata as $data){
-        if($data['amount'] > $highsale){
-            $highsale = $data['amount'];
-            $highsalename = $data['product'];
+foreach($students as $student){
+    foreach($subjects as $subject){
+        if($student[$subject] < 40){
+            $failsBySubject[$subject][] = $student['name'];
         }
-        $total += $data['amount'];
     }
-    $count = count($categorydata);
-    $average = $total / $count;
-    // echo "<pre>"; print_r($average);die();
-    echo "Category: {$cate}"."<br>";
-    echo "Total Sales: {$total}"."<br>";
-    echo "Average Sales: {$average}"."<br>";
-    echo "Top Product: {$highsalename} ($highsale)"."<br><br>";
 }
+
+echo "Subject-wise Fail List:<br>";
+foreach($failsBySubject as $subject => $names){
+    if(!empty($names)){
+        echo "{$subject} : ".implode(", ", $names)."<br>";
+    } else {
+        echo "{$subject} : (none)<br>";
+    }
+}
+
+echo "<br>";
+
+$byFailCount = []; // key = fail count, value = array of student names
+
+foreach($students as $student){
+    $failCount = 0;
+    foreach($subjects as $subject){
+        if($student[$subject] < 40){
+            $failCount++;
+        }
+    }
+    if($failCount > 0){
+        $byFailCount[$failCount][] = $student['name'];
+    }
+}
+
+echo "Fail-Count Grouping:<br>";
+
+// Determine max fail count for labels
+$maxFail = max(array_keys($byFailCount) ?: [0]);
+
+for($i=1; $i<=$maxFail; $i++){
+    if(isset($byFailCount[$i]) && !empty($byFailCount[$i])){
+        echo "{$i}-fail : ".implode(", ", $byFailCount[$i])."<br>";
+    } else {
+        echo "{$i}-fail : (none)<br>";
+    }
+}
+
+    // echo "<pre>"; print_r($failsubjects);
