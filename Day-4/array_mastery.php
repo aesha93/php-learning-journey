@@ -654,64 +654,1086 @@
 // }
 
 
-$students = [
-    ['name' => 'Avi',   'Maths' => 90, 'Science' => 45, 'English' => 78],
-    ['name' => 'Tiya',  'Maths' => 35, 'Science' => 91, 'English' => 67],
-    ['name' => 'Meera', 'Maths' => 65, 'Science' => 59, 'English' => 88],
-    ['name' => 'John',  'Maths' => 49, 'Science' => 38, 'English' => 55],
-];
+// $students = [
+//     ['name' => 'Avi',   'Maths' => 90, 'Science' => 45, 'English' => 78],
+//     ['name' => 'Tiya',  'Maths' => 35, 'Science' => 91, 'English' => 67],
+//     ['name' => 'Meera', 'Maths' => 65, 'Science' => 59, 'English' => 88],
+//     ['name' => 'John',  'Maths' => 49, 'Science' => 38, 'English' => 55],
+// ];
 
-$subjects = ['Maths', 'Science', 'English'];
-$failsBySubject = [
-    'Maths' => [],
-    'Science' => [],
-    'English' => []
-];
+// $subjects = ['Maths', 'Science', 'English'];
+// $failsBySubject = [
+//     'Maths' => [],
+//     'Science' => [],
+//     'English' => []
+// ];
 
-foreach($students as $student){
-    foreach($subjects as $subject){
-        if($student[$subject] < 40){
-            $failsBySubject[$subject][] = $student['name'];
-        }
-    }
-}
+// foreach($students as $student){
+//     foreach($subjects as $subject){
+//         if($student[$subject] < 40){
+//             $failsBySubject[$subject][] = $student['name'];
+//         }
+//     }
+// }
 
-echo "Subject-wise Fail List:<br>";
-foreach($failsBySubject as $subject => $names){
-    if(!empty($names)){
-        echo "{$subject} : ".implode(", ", $names)."<br>";
-    } else {
-        echo "{$subject} : (none)<br>";
-    }
-}
+// echo "Subject-wise Fail List:<br>";
+// foreach($failsBySubject as $subject => $names){
+//     if(!empty($names)){
+//         echo "{$subject} : ".implode(", ", $names)."<br>";
+//     } else {
+//         echo "{$subject} : (none)<br>";
+//     }
+// }
 
-echo "<br>";
+// echo "<br>";
 
-$byFailCount = []; // key = fail count, value = array of student names
+// $byFailCount = []; // key = fail count, value = array of student names
 
-foreach($students as $student){
-    $failCount = 0;
-    foreach($subjects as $subject){
-        if($student[$subject] < 40){
-            $failCount++;
-        }
-    }
-    if($failCount > 0){
-        $byFailCount[$failCount][] = $student['name'];
-    }
-}
+// foreach($students as $student){
+//     $failCount = 0;
+//     foreach($subjects as $subject){
+//         if($student[$subject] < 40){
+//             $failCount++;
+//         }
+//     }
+//     if($failCount > 0){
+//         $byFailCount[$failCount][] = $student['name'];
+//     }
+// }
 
-echo "Fail-Count Grouping:<br>";
+// echo "Fail-Count Grouping:<br>";
 
-// Determine max fail count for labels
-$maxFail = max(array_keys($byFailCount) ?: [0]);
+// // Determine max fail count for labels
+// $maxFail = max(array_keys($byFailCount) ?: [0]);
 
-for($i=1; $i<=$maxFail; $i++){
-    if(isset($byFailCount[$i]) && !empty($byFailCount[$i])){
-        echo "{$i}-fail : ".implode(", ", $byFailCount[$i])."<br>";
-    } else {
-        echo "{$i}-fail : (none)<br>";
-    }
-}
+// for($i=1; $i<=$maxFail; $i++){
+//     if(isset($byFailCount[$i]) && !empty($byFailCount[$i])){
+//         echo "{$i}-fail : ".implode(", ", $byFailCount[$i])."<br>";
+//     } else {
+//         echo "{$i}-fail : (none)<br>";
+//     }
+// }
+// Step 1: Define our dataset
+// $students = [
+//     ['name' => 'Avi',   'department' => 'Science', 'Maths' => 90, 'Physics' => 85, 'Chemistry' => 78],
+//     ['name' => 'Tiya',  'department' => 'Science', 'Maths' => 88, 'Physics' => 91, 'Chemistry' => 69],
+//     ['name' => 'Mehul', 'department' => 'Commerce','Accounts' => 95, 'Economics' => 89, 'Business' => 92],
+//     ['name' => 'Riya',  'department' => 'Commerce','Accounts' => 75, 'Economics' => 82, 'Business' => 79],
+//     ['name' => 'Karan', 'department' => 'Arts',    'History' => 89, 'Geography' => 76, 'Political' => 84],
+//     ['name' => 'Pooja', 'department' => 'Arts',    'History' => 92, 'Geography' => 88, 'Political' => 91],
+// ];
 
-    // echo "<pre>"; print_r($failsubjects);
+// // Step 2: Group data department-wise
+// $departments = [];
+// foreach ($students as $student) {
+//     $dept = $student['department']; // pick the department
+//     $departments[$dept][] = $student; // push student inside their department group
+// }
+
+// foreach($departments as $deptName => $deptStudents){
+//     echo "$deptName Department:"."<br>";
+//     // take keys from first student
+//     $subjects = array_keys($deptStudents[0]);
+//     $subjects = array_diff($subjects, ['name', 'department']); // remove name & department
+
+//       // Step 3b: For each subject, calculate average & topper
+
+//           foreach ($subjects as $subject) {
+//             $total = 0;
+//             $count = 0;
+//             $topper = '';
+//             $topMarks = -1;
+//                     foreach ($deptStudents as $stu) {
+//                         $marks = $stu[$subject];
+//                         $total += $marks;
+//                         $count++;
+//                         if($marks > $topMarks){
+//                             $topMarks = $marks;
+//                             $topper = $stu['name'];
+//                         }
+//                     }
+//             $avg = $total / $count; // average formula.
+//             echo "  Subject: $subject → Average: " . round($avg,1) . ", Topper: $topper ($topMarks)"."<br>";
+//           }
+//           echo "<br>";
+// }
+
+// $employees = [
+//     ['name' => 'Alice',   'department' => 'HR', 'salary' => 50000],
+//     ['name' => 'Bob',     'department' => 'IT', 'salary' => 70000],
+//     ['name' => 'Charlie', 'department' => 'Finance', 'salary' => 60000],
+//     ['name' => 'Diana',   'department' => 'HR', 'salary' => 55000],
+//     ['name' => 'Eve',     'department' => 'IT', 'salary' => 72000],
+// ];
+
+// // Step 1: Transform rows → columns (group by department)
+// $report = [];
+// foreach($employees as $emp){
+//     $dept = $emp['department'];
+//     $report[$dept][] = $emp['name']. "({$emp['salary']})";
+// }
+
+// // Step 2: Print column-style report
+// foreach ($report as $dept => $list) {
+//     echo $dept . " : " . implode(", ", $list) . "<br>";
+// }
+
+// $students = [
+//     ['name' => 'Avi',  'Maths' => 95, 'Science' => 90, 'English' => 85],
+//     ['name' => 'Tiya', 'Maths' => 95, 'Science' => 92, 'English' => 80],
+//     ['name' => 'Mehul','Maths' => 95, 'Science' => 92, 'English' => 88],
+// ];
+
+// // Step 1: Define subject priority order
+
+// $priority = ['Maths', 'Science', 'English'];
+
+// // Step 2: Sort students with multi-level comparison
+
+// usort($students, function($a, $b) use ($priority) {
+//     foreach ($priority as $subject) {
+//         if ($a[$subject] != $b[$subject]) {
+//             return $b[$subject] - $a[$subject]; // higher marks first
+//         }
+//     }
+//     return 0; // complete tie
+// });
+
+// $topper = $students[0];
+// echo "Topper: {$topper['name']} (Maths: {$topper['Maths']}, Science: {$topper['Science']}, English: {$topper['English']})";
+
+// $employees = [
+//     ['name' => 'Alice',   'department' => 'HR',      'salary' => 50000],
+//     ['name' => 'Bob',     'department' => 'IT',      'salary' => 70000],
+//     ['name' => 'Charlie', 'department' => 'Finance', 'salary' => 60000],
+//     ['name' => 'Diana',   'department' => 'HR',      'salary' => 55000],
+//     ['name' => 'Eve',     'department' => 'IT',      'salary' => 72000],
+//     ['name' => 'Frank',   'department' => 'Finance', 'salary' => 58000],
+// ];
+
+
+// // Step 1: Group by department
+// $departments = [];
+
+// foreach($employees as $emp){
+//     $dept = $emp['department'];
+//     $departments[$dept][] = $emp;
+// }
+
+// // Step 2: Find highest & lowest in each department
+// foreach ($departments as $dept => $list) {
+//         $highest = $list[0];
+//         $lowest = $list[0];
+//             foreach ($list as $emp) {
+//                 if ($emp['salary'] > $highest['salary']) {
+//                     $highest = $emp;
+//                 }
+//                 if ($emp['salary'] < $lowest['salary']) {
+//                     $lowest = $emp;
+//                 }
+//             }
+//                 echo "$dept Department:"."<br>";
+//                     echo "  Highest: {$highest['name']} ({$highest['salary']})\n";
+//     echo "  Lowest : {$lowest['name']} ({$lowest['salary']})\n\n";
+// }
+
+// $students = [
+//     ['name' => 'Avi',   'Maths' => 95, 'Science' => 90],
+//     ['name' => 'Tiya',  'Maths' => 92, 'Science' => 95],
+//     ['name' => 'Mehul', 'Maths' => 95, 'Science' => 95],
+//     ['name' => 'Riya',  'Maths' => 88, 'Science' => 85],
+// ];
+// // Step 1: Extract subjects dynamically
+// $subjects = array_keys($students[0]);
+// $subjects = array_diff($subjects, ['name']); // exclude 'name'
+
+// // Step 2: For each subject, rank students
+// foreach ($subjects as $subject) {
+//         // Copy student list
+//     $temp = $students;
+// // Sort by subject marks descending
+//     usort($temp, function($a, $b) use ($subject) {
+//         return $b[$subject] - $a[$subject];
+//     });
+//     echo "$subject Ranking:"."<br>";
+//     $rank = 1;
+//     $prevMarks = null;
+//         foreach ($temp as $index => $stu) {
+//         if ($prevMarks !== null && $stu[$subject] < $prevMarks) {
+//             $rank = $index + 1; // move to next rank
+//         }
+//         echo "  Rank $rank: {$stu['name']} ({$stu[$subject]})"."<br>";
+//         $prevMarks = $stu[$subject];
+//     }
+//     echo "<br>";
+// }
+
+// $employees = [
+//     ['name' => 'Alice',   'department' => 'HR', 'salary' => 50000],
+//     ['name' => 'Bob',     'department' => 'IT', 'salary' => 70000],
+//     ['name' => 'Charlie', 'department' => 'Finance', 'salary' => 60000],
+//     ['name' => 'Diana',   'department' => 'HR', 'salary' => 55000],
+//     ['name' => 'Eve',     'department' => 'IT', 'salary' => 72000],
+// ];
+
+// $report = [];
+// foreach($employees as $emp){
+//     $dept = $emp['department'];
+//     $report[$dept][] = $emp['name'] . "({$emp['salary']})";
+// }
+
+// foreach ($report as $dept => $list) {
+//     echo $dept . " : " . implode(", ", $list) . "<br>";
+// }
+
+// $employees = [
+//     ['name' => 'Alice',   'department' => 'HR', 'salary' => 50000],
+//     ['name' => 'Bob',     'department' => 'IT', 'salary' => 70000],
+//     ['name' => 'Charlie', 'department' => 'Finance', 'salary' => 60000],
+//     ['name' => 'Diana',   'department' => 'HR', 'salary' => 55000],
+//     ['name' => 'Eve',     'department' => 'IT', 'salary' => 72000],
+// ];
+
+// $report = [];
+// foreach($employees as $emp){
+//     $dept = $emp['department'];
+//     $report[$dept][] = $emp['name']. "({$emp['salary']})";
+// }
+
+// foreach($report as $dept => $list){
+//     echo $dept . " : ".implode(", ", $list) . "<br>";
+// }
+
+// $students = [
+//     ['name' => 'Avi',  'Maths' => 95, 'Science' => 90, 'English' => 85],
+//     ['name' => 'Tiya', 'Maths' => 95, 'Science' => 92, 'English' => 80],
+//     ['name' => 'Mehul','Maths' => 95, 'Science' => 92, 'English' => 88],
+// ];
+
+// $priority = ['Maths', 'Science', 'English'];
+
+// usort($students, function($a, $b) use ($priority){
+//     foreach($priority as $subject){
+//         if($a[$subject] != $b[$subject]){
+//             return $b[$subject] - $a[$subject];
+//         }
+        
+//     }
+//     return 0;
+// });
+
+// $topper = $students[0];
+// echo "Topper: {$topper['name']} (Maths: {$topper['Maths']}, Science: {$topper['Science']}, English: {$topper['English']})";
+// 
+
+
+// $employees = [
+//     ['name' => 'Alice',   'department' => 'HR',      'salary' => 50000],
+//     ['name' => 'Bob',     'department' => 'IT',      'salary' => 70000],
+//     ['name' => 'Charlie', 'department' => 'Finance', 'salary' => 60000],
+//     ['name' => 'Diana',   'department' => 'HR',      'salary' => 55000],
+//     ['name' => 'Eve',     'department' => 'IT',      'salary' => 72000],
+//     ['name' => 'Frank',   'department' => 'Finance', 'salary' => 58000],
+// ];
+
+// // Step 1: Group by department
+// $departments = [];
+// foreach($employees as $employee){
+//     $dept = $employee['department'];
+//     $departments[$dept][] = $employee;
+// }
+
+// foreach ($departments as $dept => $list) {
+//     $highest = $list[0];
+//     $lowest = $list[0];
+
+//     foreach($list as $emp){
+//         if($emp['salary'] > $highest['salary']){
+//             $highest = $emp;
+//         }
+//          if($emp['salary'] < $highest['salary']){
+//             $lowest = $emp;
+//         }
+//     }
+//         echo "$dept Department:". "<br>";
+//     echo "  Highest: {$highest['name']} ({$highest['salary']})". "<br>";
+//     echo "  Lowest : {$lowest['name']} ({$lowest['salary']})". "<br><br>";
+
+// }
+// Step 2: Find highest & lowest in each department
+
+// $students = [
+//     ['name' => 'Avi',   'Maths' => 95, 'Science' => 90],
+//     ['name' => 'Tiya',  'Maths' => 92, 'Science' => 95],
+//     ['name' => 'Mehul', 'Maths' => 95, 'Science' => 95],
+//     ['name' => 'Riya',  'Maths' => 88, 'Science' => 85],
+// ];
+
+// // Step 1: Extract subjects dynamically
+// $subjects = array_keys($students[0]);
+// $subjects = array_diff($subjects, ['name']); // exclude 'name'
+
+// // Step 2: For each subject, rank students
+// foreach ($subjects as $subject) {
+
+//     // Copy student list
+//     $temp = $students;
+
+//     // Sort by subject marks descending
+//     usort($temp, function($a, $b) use ($subject) {
+//         return $b[$subject] - $a[$subject];
+//     });
+
+//     echo "$subject Ranking:"."<br>";
+//     $rank = 1;
+//     $prevMarks = null;
+//     foreach ($temp as $index => $stu) {
+//         if ($prevMarks !== null && $stu[$subject] < $prevMarks) {
+//             $rank = $index + 1; // move to next rank
+//         }
+//         echo "  Rank $rank: {$stu['name']} ({$stu[$subject]})"."<br>";
+//         $prevMarks = $stu[$subject];
+//     }
+//     echo "<br>";
+// }
+
+
+// $students = [
+//     ['name' => 'Avi',   'Maths' => 90, 'Science' => 85, 'English' => 78],
+//     ['name' => 'Tiya',  'Maths' => 95, 'Science' => 91, 'English' => 80],
+//     ['name' => 'Kia',   'Maths' => 95, 'Science' => 88, 'English' => 84],
+//     ['name' => 'Mahi',  'Maths' => 88, 'Science' => 91, 'English' => 82],
+// ];
+
+// $subjectwise = [];
+// foreach($students as $student){
+//     foreach($student as $key => $marks){
+//        if($key != 'name'){
+//             $subjectwise[$key][] = [
+//                 'name' => $student['name'],
+//                 'marks' => $marks
+//             ];
+//         }
+//     }
+// }
+
+
+// foreach($subjectwise as $sub => $subjectdata){
+//     $highestmark = 0;
+//     $highestname = [];
+//     foreach($subjectdata as $data){
+//         if($data['marks'] > $highestmark){
+//             $highestmark = $data['marks'];
+//             $highestname = [$data['name']];
+//         }elseif($data['marks'] == $highestmark){
+//             $highestname[] = $data['name'];
+//         }
+//     }
+//     $names = implode(", ", $highestname);
+//     echo "{$sub} Topper(s): {$names} with {$highestmark} marks"."<br>";
+// }
+
+// Overall Rank List with Tie Handling
+
+// $students = [
+//     ['name' => 'Avi',   'Maths' => 90, 'Science' => 45, 'English' => 78],
+//     ['name' => 'Tiya',  'Maths' => 88, 'Science' => 91, 'English' => 84],
+//     ['name' => 'Mehul', 'Maths' => 90, 'Science' => 45, 'English' => 78],
+//     ['name' => 'Sita',  'Maths' => 92, 'Science' => 87, 'English' => 92],
+// ];
+
+// $subjectwise = [];
+
+// foreach($students as $student){
+//     $total = 0;
+//     foreach($student as $key => $data){
+//         if($key != 'name'){
+//             $total += $data;
+//         }
+//     }
+//     $subjectwise[] = [
+//         'name' => $student['name'],
+//         'mark' => $total
+//     ];
+// }
+
+//  usort($subjectwise, function($a, $b) {
+//         if ($b['mark'] == $a['mark']) {
+//             return strcmp($a['name'], $b['name']);
+//         }
+//         return $b['mark'] <=> $a['mark'];
+//     });
+
+// $i = 0;
+// foreach($subjectwise as $list){
+//     $i++;
+//     echo "Rank {$i}: {$list['name']} ({$list['mark']})"."<br>";
+// }
+
+//Subject Topper + Overall Topper in One Report
+
+// Task:
+
+// For each subject, find highest scorer(s).
+
+// Also calculate overall topper (highest total marks).
+
+// Print final report like:
+// $students = [
+//     ['name' => 'Avi',   'Maths' => 90, 'Science' => 45, 'English' => 78],
+//     ['name' => 'Tiya',  'Maths' => 88, 'Science' => 91, 'English' => 84],
+//     ['name' => 'Mehul', 'Maths' => 90, 'Science' => 45, 'English' => 78],
+//     ['name' => 'Sita',  'Maths' => 92, 'Science' => 87, 'English' => 92],
+// ];
+
+// $subjectwise = [];
+
+// // Step 1: Collect marks subject-wise + total
+// foreach($students as $student) {
+//     $total = 0;
+//     foreach($student as $key => $data) {
+//         if($key != 'name'){
+//             $total += $data;
+//             $subjectwise[$key][$student['name']] = $data;
+//         }
+//     }
+//     $subjectwise['total'][$student['name']] = $total;
+// }
+
+// // Step 2: Find toppers (allowing multiple toppers)
+// foreach($subjectwise as $index => $subjects){
+//     $highscore = max($subjects); // highest mark in this subject/total
+//     $toppers = [];               // collect toppers
+    
+//     foreach($subjects as $name => $mark){
+//         if($mark == $highscore){
+//             $toppers[] = $name;
+//         }
+//     }
+
+//     // Step 3: Print Report
+//     $toppersList = implode(", ", $toppers);
+//     if($index == 'total'){
+//         echo "🏆 Overall Topper(s) → {$toppersList} ({$highscore})<br>";
+//     } else {
+//         echo "📘 Subject: {$index} → Topper(s): {$toppersList} ({$highscore})<br>";
+//     }
+// }
+
+// $employees = [
+//     ['name' => 'Avi',   'department' => 'HR',       'salary' => 40000, 'bonus' => 5000],
+//     ['name' => 'Tiya',  'department' => 'HR',       'salary' => 42000, 'bonus' => 7000],
+//     ['name' => 'Raj',   'department' => 'IT',       'salary' => 60000, 'bonus' => 8000],
+//     ['name' => 'Maya',  'department' => 'IT',       'salary' => 65000, 'bonus' => 6000],
+//     ['name' => 'Karan', 'department' => 'Finance',  'salary' => 55000, 'bonus' => 9000],
+//     ['name' => 'Sara',  'department' => 'Finance',  'salary' => 53000, 'bonus' => 8500],
+// ];
+
+// $departmentwise = [];
+// foreach($employees as $employee){
+//     $dept = $employee['department'];
+//     $departmentwise[$dept][] = $employee;
+// }
+
+
+
+// foreach($departmentwise as $dept => $departments){
+
+//     $total = 0;
+//     $count = 0;
+//     $average = 0;
+//     $highsalary = 0;
+//     $topname = '';
+//     foreach($departments as $data){
+//         $count++;
+//         $total += $data['salary'];
+//         $average += $data['bonus'];
+//         if($data['salary'] > $highsalary){
+//             $highsalary = $data['salary'];
+//             $topname = $data['name'];
+//         }
+//     }
+//     $averagebonus = $average / $count;
+//         echo "Department: {$dept}"."<br>";
+//     echo "Total Salary: {$total}"."<br>";
+//     echo "Average Bonus: {$averagebonus}"."<br>";
+//     echo "Highest Salary: {$topname} ({$highsalary})"."<br><br>";
+// }
+// $students = [
+//     ["name" => "Avi",   "Maths" => 85, "Science" => 92, "English" => 78],
+//     ["name" => "Tiya",  "Maths" => 85, "Science" => 92, "English" => 78],
+//     ["name" => "Reva",  "Maths" => 85, "Science" => 88, "English" => 95],
+//     ["name" => "Mihir", "Maths" => 92, "Science" => 90, "English" => 80],
+//     ["name" => "Arya",  "Maths" => 92, "Science" => 92, "English" => 70],
+// ];
+
+// $subjectwise = [];
+// foreach($students as  $student){
+//     $name = $student['name'];
+//     $total = 0;
+//     foreach($student as $key => $mark){
+//         if($key != 'name'){
+//             $subjectwise[$key][$name] = $mark;
+//             $total += $mark;
+//         }
+//         $subjectwise['total'][$name] = $total;
+//     }
+// }
+
+
+// foreach($subjectwise as $sub => $subjects){
+//     $highmark = max($subjects); // highest marks in this subject
+//     $toppers = [];
+//     foreach($subjects as $name => $marks){
+//         if($marks == $highmark){
+//             $toppers[] = $name;
+//         }
+//     }
+//     echo "Topper in {$sub}: " . implode(", ", $toppers) . " ({$highmark} marks)<br>";
+// }
+
+
+// $students = [
+//     ['name' => 'Avi',   'department' => 'IT',      'Maths' => 80, 'Science' => 70, 'English' => 90],
+//     ['name' => 'Tiya',  'department' => 'IT',      'Maths' => 35, 'Science' => 60, 'English' => 45],
+//     ['name' => 'Mira',  'department' => 'HR',      'Maths' => 55, 'Science' => 40, 'English' => 30],
+//     ['name' => 'Ravi',  'department' => 'HR',      'Maths' => 90, 'Science' => 85, 'English' => 95],
+//     ['name' => 'Sara',  'department' => 'Finance', 'Maths' => 72, 'Science' => 65, 'English' => 88],
+// ];
+
+// $subjects = array_keys($students[0]);
+// $subjects = array_values(array_diff($subjects, ['name','department']));
+
+// // step 1 — group rows by department
+// $byDept = [];
+// foreach($students as $row){
+//     $dept = $row['department'];
+//     $byDept[$dept][] = $row;
+// }
+
+// // step 2 — prepare a report structure and accumulate
+// $report = [];  // $report[$dept] = ['students'=>..., 'sum'=>[subj=>...], 'failCount'=>...]
+
+// foreach ($byDept as $dept => $rows) {
+//     $report[$dept] = [
+//         'students' => 0,
+//         'sum'      => array_fill_keys($subjects, 0),
+//         'failCount'=> 0
+//     ];
+
+//     foreach ($rows as $r) {
+//         $report[$dept]['students']++;
+
+//         $failedThisStudent = false;
+//         foreach ($subjects as $subj) {
+//             $mark = $r[$subj];
+//             $report[$dept]['sum'][$subj] += $mark;
+//             if ($mark < 40) {
+//                 $failedThisStudent = true;
+//             }
+//         }
+//         if ($failedThisStudent) {
+//             $report[$dept]['failCount']++;
+//         }
+//     }
+// }
+// //step 3 — compute averages per subject (sum / students)
+// foreach ($report as $dept => &$rec) {
+//     $rec['avg'] = [];
+//     foreach ($subjects as $subj) {
+//         $rec['avg'][$subj] = $rec['students'] > 0
+//             ? $rec['sum'][$subj] / $rec['students']
+//             : 0;
+//     }
+// }
+// unset($rec); // break reference
+
+// // step 4 — print a clean report
+
+// foreach ($report as $dept => $rec) {
+//     echo "Department: $dept\n";
+//     echo "  Students: {$rec['students']}"."<br>";
+//     foreach ($subjects as $subj) {
+//         // 1 decimal place for nicer look
+//         $avg = number_format($rec['avg'][$subj], 1);
+//         echo "  Avg $subj: $avg"."<br>";
+//     }
+//     echo "  Fail Count: {$rec['failCount']}"."<br><br>";
+// }
+
+// print_r($report);
+
+// $students = [
+//     ["name" => "Avi",   "Maths" => 85, "Science" => 92, "English" => 78],
+//     ["name" => "Tiya",  "Maths" => 90, "Science" => 88, "English" => 91],
+//     ["name" => "Ravi",  "Maths" => 92, "Science" => 70, "English" => 85],
+//     ["name" => "Mona",  "Maths" => 75, "Science" => 95, "English" => 89],
+// ];
+
+// // Step 1: Collect subject-wise data
+
+// $subjects = ["Maths", "Science", "English"];
+// $subjectWise = [];
+
+// foreach($subjects as $subject){
+//     foreach($students as $student){
+//         $subjectWise[$subject][] = [
+//             "name" => $student["name"],
+//             "mark" => $student[$subject]
+//         ];
+//     }
+// }
+
+// // Step 2: Sort each subject by marks descending
+// foreach($subjectWise as $subject => &$list){
+//     usort($list, function($a, $b){
+//         return $b["mark"] <=> $a["mark"];
+//     });
+// }
+
+// // Step 3: Print Rankings
+// foreach ($subjectWise as $subject => $list) {
+//     echo "$subject Ranking:"."<br>";
+//     $rank = 1;
+//     foreach($list as $entry){
+//         echo $rank . ". " .$entry["name"]. " (". $entry["mark"] . ")"."<br>";
+//         $rank++;
+//     }
+//     echo "<br>";
+// }
+
+// $students = [
+//     ["name" => "Avi",   "Maths" => 85, "Science" => 92, "English" => 78],
+//     ["name" => "Tiya",  "Maths" => 90, "Science" => 88, "English" => 91],
+//     ["name" => "Ravi",  "Maths" => 84, "Science" => 93, "English" => 78],
+//     ["name" => "Mona",  "Maths" => 75, "Science" => 95, "English" => 89],
+// ];
+
+// $totalmarks =[];
+// foreach($students as $student){
+//     $name = $student['name'];
+//     $total = 0;
+//     $science = 0;
+//     foreach($student as $key => $data){
+//         if($key != 'name'){
+//             $total += $data;
+//             if($key == 'Science'){
+//                 $science = $data;
+//             }
+            
+//         }
+//     }
+//     $totalmarks[] = [
+//         'total' => $total,
+//         'science' => $science,
+//         'name' => $name
+//     ];    
+
+// }
+
+// usort($totalmarks, function($a, $b){
+//                 if ($a['total'] === $b['total']) {
+//                      return $b["science"] <=> $a["science"];
+//                 }
+//             return $b["total"] <=> $a["total"];
+//         });
+
+// $rank = 0;
+// foreach($totalmarks as $name => $list){
+//     $rank++;
+//     echo "{$rank}. {$list['name']} ({$list['total']}) "."<br>";
+//  }
+
+// $students = [
+//     ["name" => "Avi",   "Maths" => 85, "Science" => 92, "English" => 78],
+//     ["name" => "Tiya",  "Maths" => 90, "Science" => 88, "English" => 91],
+//     ["name" => "Ravi",  "Maths" => 84, "Science" => 93, "English" => 78],
+//     ["name" => "Mona",  "Maths" => 75, "Science" => 95, "English" => 89],
+// ];
+
+// $subjectdata = [];
+// foreach($students['0'] as $key => $value){
+//     if($key != 'name'){
+//         $subjectdata[] = $key;
+//     }
+// }
+
+// $subjectwise = [];
+// foreach($students as $student){
+//     $name = $student['name'];
+//     foreach($subjectdata as $subjects){
+//         $subjectwise[$subjects][$name] = $student[$subjects];
+//     }
+// }
+
+// foreach($subjectwise as $subname => $subject){
+//     $maxmark = max($subject);
+//     $minmark = min($subject);
+//     $maxname = array_search($maxmark, $subject);
+//     $minname = array_search($minmark, $subject);
+//     $sum = array_sum($subject);
+//     $count = 0;
+//     $average = 0;
+//     foreach($subject as $sub){
+//         $count++;
+//     }
+//     $average = $sum / $count;
+//     $round = round($average, 1);
+//     echo "Subject: {$subname}"."<br>";
+//     echo "Total: {$sum}"."<br>";
+//     echo "Average: {$round}"."<br>";
+//     echo "Highest: {$maxname} ({$maxmark})"."<br>";
+//     echo "Lowest: {$minname} ({$minmark})"."<br><br>";
+// }
+
+
+// $students = [
+//     ["name" => "Avi",   "Maths" => 85, "Science" => 92, "English" => 78],
+//     ["name" => "Tiya",  "Maths" => 90, "Science" => 88, "English" => 91],
+//     ["name" => "Ravi",  "Maths" => 84, "Science" => 93, "English" => 78],
+//     ["name" => "Mona",  "Maths" => 75, "Science" => 95, "English" => 89],
+// ];
+
+// // Step 1: Get subject names dynamically
+
+// $subjectdata = [];
+// foreach($students[0] as $key => $value){
+//     if($key != 'name'){
+//         $subjectdata[] = $key;
+//     }
+// }
+
+// // Step 2: Build subject-wise marks
+// $subjectwise = [];
+// foreach($students as $student){
+//     $name = $student['name'];
+//     foreach($subjectdata as $subjectName){
+//         $subjectwise[$subjectName][$name] = $student[$subjectName]; // ???
+//     }
+// }
+
+
+// // Step 3: Process each subject
+// foreach($subjectwise as $subname => $marks){
+//     arsort($marks);
+//      echo "Subject: {$subname}<br>";
+//     $rank = 1;
+//     foreach($marks as $studentName => $score){
+//         if($rank <= 2){
+//             echo "  {$rank}. {$studentName} ({$score})<br>";
+//             $rank++;
+//         }
+//     }
+//     echo "<br>";
+// }
+
+
+// $students = [
+//     ["name" => "Avi",   "Maths" => 85, "Science" => 92, "English" => 78],
+//     ["name" => "Tiya",  "Maths" => 90, "Science" => 88, "English" => 91],
+//     ["name" => "Ravi",  "Maths" => 84, "Science" => 93, "English" => 78],
+//     ["name" => "Mona",  "Maths" => 75, "Science" => 95, "English" => 89],
+// ];
+
+// // Step 1: Extract subjects dynamically (skip 'name')
+
+// $subjects = [];
+// foreach($students['0'] as $key => $value){
+//     if($key != 'name'){
+//         $subjects[] = $key;
+//     }
+// }  
+
+// // Step 2: Initialize result array
+// $gradeBands = [];
+
+// // Step 3: Loop students → subjects → assign grade
+// foreach ($students as $student) {
+//     $name = $student['name'];
+
+//     foreach ($subjects as $subject) {
+//         $score = $student[$subject];
+
+//         // Grade logic
+//         if ($score >= 90) {
+//             $grade = 'A';
+//         } elseif ($score >= 80) {
+//             $grade = 'B';
+//         } elseif ($score >= 70) {
+//             $grade = 'C';
+//         } else {
+//             $grade = 'D';
+//         }
+
+//         // Store in grade band structure
+//         $gradeBands[$subject][$grade][] = [
+//             'name' => $name,
+//             'mark' => $score
+//         ];
+//     }
+// }
+// // Step 4: Display result
+// foreach ($gradeBands as $subject => $bands) {
+//     echo "Subject: $subject";
+//     foreach ($bands as $grade => $studentsList) {
+//         echo "  Grade $grade:"."<br>";
+//         foreach ($studentsList as $info) {
+//             echo "    {$info['name']} ({$info['mark']})"."<br>";;
+//         }
+//     }
+//     echo "<br>";
+// }
+
+
+// $students = [
+//     ["name" => "Avi",   "Maths" => 85, "Science" => 92, "English" => 78],
+//     ["name" => "Tiya",  "Maths" => 90, "Science" => 88, "English" => 91],
+//     ["name" => "Mona",  "Maths" => 75, "Science" => 95, "English" => 89],
+//     ["name" => "Ravi",  "Maths" => 84, "Science" => 93, "English" => 78],
+// ];
+
+// $subjects = ["Maths", "Science", "English"];
+
+// // Grade ranges
+// function getGrade($marks) {
+//     if ($marks >= 90) return "A";
+//     if ($marks >= 80) return "B";
+//     if ($marks >= 70) return "C";
+//     return "D";
+// }
+
+// foreach ($subjects as $subject) {
+//     // initialize grade counters
+//     $gradeCounts = ["A" => 0, "B" => 0, "C" => 0, "D" => 0];
+
+//     foreach ($students as $student) {
+//         $marks = $student[$subject];
+//         $grade = getGrade($marks);
+//         $gradeCounts[$grade]++; // increment counter
+//     }
+
+//     // Print results
+//     echo "Subject: $subject"."<br>";
+//     foreach ($gradeCounts as $grade => $count) {
+//         echo "  $grade: $count"."<br>";
+//     }
+//     echo "<br>";
+// }
+
+
+// $students = [
+//     ["name" => "Avi",   "Maths" => 85, "Science" => 92, "English" => 78],
+//     ["name" => "Tiya",  "Maths" => 90, "Science" => 88, "English" => 91],
+//     ["name" => "Mona",  "Maths" => 75, "Science" => 95, "English" => 89],
+//     ["name" => "Ravi",  "Maths" => 84, "Science" => 93, "English" => 78],
+// ];
+// $count = count($students);
+// $subjects = [];
+// foreach($students['0'] as $key => $student){
+//     if($key != 'name'){
+//         $subjects[] = $key;
+//     }
+// }
+
+// $subjectwise = [];
+// foreach($students as $student){
+//     $name = $student['name'];
+//     foreach($subjects as $subject){
+//         $subjectwise[$subject][$name] = $student[$subject];
+//     }
+// }
+
+// foreach($subjectwise as $sub => $subjecdata){
+//     $maxvalue = max($subjecdata);
+//     $maxname  = array_search($maxvalue, $subjecdata);
+//     $minvalue = min($subjecdata);
+//     $minname  = array_search($minvalue, $subjecdata);
+//     $total = array_sum($subjecdata);
+//     $average = round($total / $count, 1);
+
+//     $maxStudents = [];
+//     foreach ($subjecdata as $studentName => $mark) {
+//         if ($mark == $maxvalue) {
+//             $maxStudents[] = $studentName;
+//         }
+//     }
+//     $maxNames = implode(", ", $maxStudents);
+
+//     // Find all students with min value
+//     $minStudents = [];
+//     foreach ($subjecdata as $studentName => $mark) {
+//         if ($mark == $minvalue) {
+//             $minStudents[] = $studentName;
+//         }
+//     }
+//     $minNames = implode(", ", $minStudents);
+
+//     echo "Subject: {$sub}"."<br>";
+//     echo "Average: {$average}"."<br>";
+//     echo "Highest: {$maxvalue}  ({$maxNames})"."<br>";
+//     echo "Lowest: {$minvalue}  ({$minNames})"."<br><br>";
+// }
+
+
+// ===== Step 1: Inputs =====
+// $students = [
+//     ["name" => "Avi",   "Maths" => 85, "Science" => 92, "English" => 78],
+//     ["name" => "Tiya",  "Maths" => 90, "Science" => 88, "English" => 91],
+//     ["name" => "Mona",  "Maths" => 75, "Science" => 95, "English" => 89],
+//     ["name" => "Ravi",  "Maths" => 84, "Science" => 93, "English" => 78],
+// ];
+
+// // Optional bonus marks (student & subject specific)
+// $bonusMarks = [
+//     "Avi"  => ["Science" => 3],   // Avi gets +3 in Science -> 95
+//     "Mona" => ["Maths"   => 5],   // Mona gets +5 in Maths  -> 80
+//     // You can add more if you like...
+// ];
+
+
+// // Grade function
+// function getGrade(int $marks): string {
+//     if ($marks >= 90) return 'A';
+//     if ($marks >= 80) return 'B';
+//     if ($marks >= 70) return 'C';
+//     return 'D';
+// }
+
+// // ===== Step 2: Extract subjects dynamically =====
+// $subjects = [];
+// foreach ($students[0] as $key => $val) {
+//     if ($key !== 'name') $subjects[] = $key;
+// }
+
+// // ===== Step 3: Build effective marks (apply bonus if present) =====
+// $effective = []; // $effective[$name][$subject] = markAfterBonus
+// foreach ($students as $row) {
+//     $name = $row['name'];
+//     foreach ($subjects as $subj) {
+//         $mark = $row[$subj];
+//         if (isset($bonusMarks[$name][$subj])) {
+//             $mark += $bonusMarks[$name][$subj];
+//         }
+//         // (Optional) cap at 100 if your rules demand: $mark = min(100, $mark);
+//         $effective[$name][$subj] = $mark;
+//     }
+// }
+
+// // ===== Step 4: Build subject-wise arrays =====
+// $subjectMarks = []; // $subjectMarks['Maths'] = ['Avi'=>..., 'Tiya'=>...]
+// foreach ($subjects as $subj) {
+//     foreach ($effective as $name => $marksBySubj) {
+//         // Guard for irregular data: skip if missing
+//         if (!isset($marksBySubj[$subj])) continue;
+//         $subjectMarks[$subj][$name] = $marksBySubj[$subj];
+//     }
+// }
+// // ===== Step 5: Subject-wise metrics =====
+// $subjectAverages = [];   // for global highlight
+// $subjectAGradeCounts = []; // for global highlight
+
+// echo "<h3>Subject-wise Report</h3>";
+// foreach ($subjectMarks as $subj => $marksMap) {
+
+//     // Average
+//     $sum   = array_sum($marksMap);
+//     $count = count($marksMap);
+//     $avg   = $count ? round($sum / $count, 1) : 0.0;
+//     $subjectAverages[$subj] = $avg;
+
+//     // Top 2 scorers with tie-break (mark desc, name asc)
+//     $list = [];
+//     foreach ($marksMap as $studentName => $mark) {
+//         $list[] = ['name' => $studentName, 'mark' => $mark];
+//     }
+//     usort($list, function($a, $b) {
+//         if ($a['mark'] === $b['mark']) {
+//             return strcmp($a['name'], $b['name']); // tie → name A→Z
+//         }
+//         return $b['mark'] <=> $a['mark']; // mark desc
+//     });
+//     $top2 = array_slice($list, 0, 2);
+
+//     // Grade counts + pass/fail
+//     $gradeCounts = ['A'=>0,'B'=>0,'C'=>0,'D'=>0];
+//     $passCount = 0; $failed = [];
+//     foreach ($marksMap as $studentName => $mark) {
+//         $grade = getGrade($mark);
+//         $gradeCounts[$grade]++;
+//         if ($mark >= 40) $passCount++; else $failed[] = $studentName;
+//     }
+//     $subjectAGradeCounts[$subj] = $gradeCounts['A'];
+
+//     // ----- Print Subject Section -----
+//     echo "<strong>Subject: {$subj}</strong><br>";
+//     echo "Average: {$avg}<br>";
+//     echo "Top 2:<br>";
+//     $rank = 1;
+//     foreach ($top2 as $row) {
+//         echo "&nbsp;&nbsp;{$rank}. {$row['name']} ({$row['mark']})<br>";
+//         $rank++;
+//     }
+//     echo "Grades: A={$gradeCounts['A']}, B={$gradeCounts['B']}, C={$gradeCounts['C']}, D={$gradeCounts['D']}<br>";
+//     echo "Pass Count: {$passCount}<br>";
+//     echo "Failed: " . (count($failed) ? implode(', ', $failed) : 'None') . "<br><br>";
+// }
+
+// // ===== Step 6: Overall student metrics =====
+// $overall = []; // ['name'=>..., 'total'=>..., 'science'=>..., 'aCount'=>...]
+// foreach ($effective as $name => $bySubj) {
+//     $total = 0; $aCount = 0; $science = $bySubj['Science'] ?? 0;
+//     foreach ($subjects as $subj) {
+//         if (!isset($bySubj[$subj])) continue;
+//         $m = $bySubj[$subj];
+//         $total += $m;
+//         if (getGrade($m) === 'A') $aCount++;
+//     }
+//     $overall[] = ['name'=>$name, 'total'=>$total, 'science'=>$science, 'aCount'=>$aCount];
+// }
+
+// // Ranking: total desc → science desc → name asc
+// usort($overall, function($a, $b){
+//     if ($a['total'] === $b['total']) {
+//         if ($a['science'] === $b['science']) {
+//             return strcmp($a['name'], $b['name']);
+//         }
+//         return $b['science'] <=> $a['science'];
+//     }
+//     return $b['total'] <=> $a['total'];
+// });
+
+// // Student(s) with most A grades
+// $maxA = 0;
+// foreach ($overall as $row) $maxA = max($maxA, $row['aCount']);
+// $mostA = array_values(array_filter($overall, fn($r) => $r['aCount'] === $maxA));
+// // tie-break among mostA → higher total → name asc
+// usort($mostA, function($a,$b){
+//     if ($a['total'] === $b['total']) return strcmp($a['name'], $b['name']);
+//     return $b['total'] <=> $a['total'];
+// });
+
+// // Print overall ranking
+// echo "<h3>Overall Student Ranking (Effective Marks)</h3>";
+// $rank = 1;
+// foreach ($overall as $row) {
+//     echo "{$rank}. {$row['name']} — Total: {$row['total']}, Science: {$row['science']}, A-grades: {$row['aCount']}<br>";
+//     $rank++;
+// }
+// echo "<br>";
+
+// // Print student(s) with most A's
+// echo "<strong>Most A grades:</strong> ";
+// echo implode(', ', array_map(fn($r) => "{$r['name']} ({$r['aCount']} A's, Total {$r['total']})", $mostA));
+// echo "<br><br>";
+
+// // ===== Step 7: Global highlights =====
+// arsort($subjectAverages); // highest average first
+// $subjectWithHighestAvg = array_key_first($subjectAverages);
+
+// arsort($subjectAGradeCounts); // most A's first
+// $subjectWithMostAs = array_key_first($subjectAGradeCounts);
+
+// echo "<h3>Global Highlights</h3>";
+// echo "Subject with Highest Average: {$subjectWithHighestAvg} ({$subjectAverages[$subjectWithHighestAvg]})<br>";
+// echo "Subject with Most A's: {$subjectWithMostAs} ({$subjectAGradeCounts[$subjectWithMostAs]} A's)<br>";
+
