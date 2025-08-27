@@ -1,4 +1,5 @@
 <?php
+
 // $order = [
 //     'items' => [
 //         ['sku' => 'MH01', 'qty' => 2, 'price' => 1500],
@@ -665,24 +666,406 @@
 
 // a) Filtering Products > 150
 
-$products = [
-    ["name" => "Bag", "price" => 100],
-    ["name" => "Shoes", "price" => 200],
+// $products = [
+//     ["name" => "Bag", "price" => 100],
+//     ["name" => "Shoes", "price" => 200],
+// ];
+
+// // // Complex Data Transformations
+
+// // a) Filtering Products > 150
+// function filterExpensive($product){
+//     return $product['price'] > 150;
+// }
+
+// $expensive = array_filter($products, 'filterExpensive');
+// print_r($expensive);
+
+// // b) Mapping to Apply Discount
+
+// $discounted = array_map('applyDiscount', $products);
+// print_r($discounted);
+
+$orders = [
+    [
+        "id" => "1001",
+        "items" => [
+            ["name" => "Bag", "price" => 500, "qty" => 2],
+            ["name" => "Shoes", "price" => 1200, "qty" => 1],
+        ]
+    ],
+    [
+        "id" => "1002",
+        "items" => [
+            ["name" => "Watch", "price" => 2000, "qty" => 1],
+            ["name" => "Belt", "price" => 800, "qty" => 3],
+        ]
+    ]
 ];
 
-// // Complex Data Transformations
+// Wrong way (Big monolithic function)
 
-// a) Filtering Products > 150
-function filterExpensive($product){
-    return $product['price'] > 150;
+
+// function getOrderTotals($orders) {
+//     $totals = [];
+//     foreach ($orders as $order) {
+//         $grandTotal = 0;
+//         foreach ($order['items'] as $item) {
+//             $grandTotal += $item['price'] * $item['qty'];
+//         }
+//         $totals[$order['id']] = $grandTotal;
+//     }
+//     return $totals;
+// }
+
+
+// $mydata = getOrderTotals($orders);
+// echo "<pre>"; print_r($mydata);
+
+
+// Decomposed way (Smaller helpers)
+
+// Helper 1 – calculate total for a single item
+// function getItemTotal($item) {
+//     return $item['price'] * $item['qty'];
+// }
+
+// // Helper 2 – calculate total for all items in one order
+// function getOrderTotal($order) {
+//     $total = 0;
+//     foreach ($order['items'] as $item) {
+//         $total += getItemTotal($item); // reuse helper
+//     }
+//     return $total;
+// }
+
+// // Main function – loop all orders and collect totals
+// function getOrderTotals($orders) {
+//     $totals = [];
+//     foreach ($orders as $order) {
+//         $totals[$order['id']] = getOrderTotal($order);
+//     }
+//     return $totals;
+// }
+
+// // Run
+// print_r(getOrderTotals($orders));
+
+// $orders = [
+//     [
+//         "id" => "1001",
+//         "items" => [
+//             ["name" => "Bag", "price" => 500, "qty" => 2],
+//             ["name" => "Shoes", "price" => 1200, "qty" => 1],
+//         ]
+//     ],
+//     [
+//         "id" => "1002",
+//         "items" => [
+//             ["name" => "Watch", "price" => 2000, "qty" => 1],
+//             ["name" => "Belt", "price" => 800, "qty" => 3],
+//         ]
+//     ]
+// ];
+
+// function getItemTotal($item){
+//     return $item['price'] * $item['qty'];
+// }
+
+// function getOrderTotal($order){
+//     $total = 0;
+//     foreach($order['items'] as $item){
+//         $total += getItemTotal($item);
+//     }
+//     return $total;
+// }
+
+
+
+// function getOrderTotals($orders) {
+//     $totals = [];
+//     foreach($orders as $order){
+//         $totals[$order['id']] = getOrderTotal($order);
+//     }
+//     return $totals;
+// }
+
+// print_r(getOrderTotals($orders));
+
+// $orders = [
+//     [
+//         "id" => "1001",
+//         "items" => [
+//             ["name" => "Bag", "price" => 500, "qty" => 2],
+//             ["name" => "Shoes", "price" => 1200, "qty" => 1],
+//         ]
+//     ],
+//     [
+//         "id" => "1002",
+//         "items" => [
+//             ["name" => "Watch", "price" => 2000, "qty" => 1],
+//             ["name" => "Belt", "price" => 800, "qty" => 3],
+//         ]
+//     ]
+// ];
+
+// function calculateSubtotal($items){
+//     $subtotal = 0;
+//     foreach($items as $item){
+//         $subtotal += $item['price'] * $item['qty'];
+//     }
+//     return $subtotal;
+// }
+
+// function calculateTax($subtotal){
+//     return $subtotal * 0.10;
+// }
+
+// function calculateShipping($subtotal){
+//     return ($subtotal > 100) ? 0 :10;
+// }
+
+// function calculateOrderTotal($order){
+//     $subtotal = calculateSubtotal($order['items']);
+//     $tax = calculateTax($subtotal);
+//     $shipping = calculateShipping($subtotal);
+//     return $subtotal + $tax + $shipping;
+// }
+
+// $cart = [
+//     ['name' => 'Shirt', 'price' => 50, 'qty' => 2],
+//     ['name' => 'Shoes', 'price' => 80, 'qty' => 1],
+//     ['name' => 'Watch', 'price' => 120, 'qty' => 1],
+// ];
+
+// function getSubtotal($cart){
+//     $subtotal = 0;
+//     foreach($cart as $item){
+//         $subtotal += $item['price'] * $item['qty'];
+//     }
+//     return $subtotal;
+// }
+
+// function getDiscount($subtotal){
+//     $discount = 0;
+//     if($subtotal > 200){
+//         $discount = ($subtotal * 10)/ 100;
+//     }
+//     return $discount;
+// }
+
+// function getTax($amount){
+//        return ($amount * 18) / 100;  // ✅ Only tax
+// }
+
+// function getFinalTotal($subtotal, $discount, $tax){
+//     $disccountAmount =  $subtotal - $discount;
+//     $finalAmount = $disccountAmount + $tax;
+//     return $finalAmount;
+// }
+
+// function calculateCartTotal($cart){
+//     $subtotal = getSubtotal($cart);
+//     $discount = getDiscount($subtotal);
+//     $discountedAmount = $subtotal - $discount;
+//     $tax = getTax($discountedAmount);
+
+//     $final = getFinalTotal($subtotal, $discount, $tax);
+//     return $final;
+// }
+
+// echo "<pre>"; print_r(calculateCartTotal($cart));
+
+// $cart = [
+//     ['name' => 'Laptop', 'price' => 400, 'qty' => 1],
+//     ['name' => 'Headphones', 'price' => 50, 'qty' => 2],
+//     ['name' => 'Keyboard', 'price' => 70, 'qty' => 1],
+// ];
+
+// function getSubtotal($cart){
+//     $subtotal = 0;
+//     foreach($cart as $item){
+//         $subtotal += $item['price'] * $item['qty'];
+//     }
+//     return $subtotal;
+// }
+
+// function getDiscount($subtotal){
+//  $discount = 0;
+//     if($subtotal > 500){
+//         $discount = ($subtotal * 15)/ 100;
+//     }
+//     return $discount;
+// }
+
+// function getShipping($subtotal, $discount){
+//      $shiping = 0;
+//     $afterDiscount = $subtotal - $discount;
+//     if($afterDiscount > 300){
+//         $shiping = 0;
+//     }else{
+//          $shiping = 50;
+//     }
+//     return $shiping;
+// }
+
+// function getTax($amount){
+//      return ($amount * 12) /100;
+// }
+
+// function getFinalTotal($subtotal, $discount, $shipping, $tax){
+//     return $subtotal - $discount + $shipping + $tax;
+// }
+
+// function calculateInvoice($cart){
+//     $subtotal = getSubtotal($cart);
+//     $discount = getDiscount($subtotal);
+//     $shipping = getShipping($subtotal, $discount);
+//     $tax = getTax($subtotal - $discount + $shipping);
+//     $final = getFinalTotal($subtotal, $discount, $shipping, $tax);
+
+//     return [
+//         'subtotal' => $subtotal,
+//         'discount' => $discount,
+//         'shipping' => $shipping,
+//         'tax'      => $tax,
+//         'final'    => $final
+//     ];
+// }
+
+
+// $final = calculateInvoice($cart);
+
+// echo "<pre>"; print_r($final);
+
+
+// $cart = [
+//     ['name' => 'Laptop', 'price' => 400, 'qty' => 1],
+//     ['name' => 'Headphones', 'price' => 50, 'qty' => 2],
+//     ['name' => 'Keyboard', 'price' => 70, 'qty' => 1],
+// ];
+
+// function applyDiscount(&$price, $percent){
+//     $price = $price - ($price * $percent /100);
+//     return $price;
+// }
+
+// $itemPrice = 1000;
+// applyDiscount($itemPrice, 20);
+
+// echo "Final Price: ".$itemPrice;
+
+// function sumOfDigits($num){
+//     if($num == 0){
+//         return 0;
+//     }
+
+//     $lastDigit = $num % 10;
+//     $remaining = floor($num / 10);
+
+//     return $lastDigit + sumOfDigits($remaining);
+// }
+
+// echo sumOfDigits(5050);
+
+// function callCounter(){
+//     static $count = 0;
+//     $count = $count + 2;
+//     echo "This functions was called $count times"."<br>";
+// }
+
+// callCounter();//2
+// callCounter();//4
+// callCounter();//6
+
+// global variable
+// $counter = 5;
+
+
+// function increaseCounter(){
+//     global $counter;   
+//      $counter++;
+//     echo "This function was called $counter times"."<br>";
+// }
+
+// // echo increaseCounter();
+// // echo increaseCounter();
+// // echo increaseCounter();
+
+// function showCounter(){
+//     global $counter;   
+//     return $counter;
+// }
+
+// increaseCounter();  // 1
+// increaseCounter();  // 2
+// increaseCounter();  // 3
+
+// echo "Final counter: " . showCounter(); // 3
+
+// declare(strict_types=1); // add this line from the starting php file
+
+// function add(int $a, int $b): int {
+//     return $a + $b;
+// }
+
+// echo add(15,7);
+// echo add(5, "7");
+
+// $greet = function($name) {
+//     return "Hello, $name!";
+// };
+
+// echo $greet("Aesha"); // Hello, Aesha!
+
+
+// $factor = 5; // outer variable
+
+// $multiplier = function($num) use ($factor) {
+//     return $num * $factor;
+// };
+
+// echo $multiplier(10); // 50
+// echo "\n";
+// echo $multiplier(7);  // 35
+
+
+// function hello() {
+//     echo "Hello World"."<br>";
+// }
+
+// $func = "hello";
+// $func(); // calls hello()
+
+
+// function add($a, $b) {
+//     return $a + $b;
+// }
+
+// function subtract($a, $b) {
+//     return $a - $b;
+// }
+
+// function multiply($a, $b) {
+//     return $a * $b;
+// }
+
+// $operation = "multiply";  // try "add" or "subtract"
+// $result = $operation(10, 5);
+
+// echo "Operation: $operation, Result: $result";
+
+// function addOne(&$num){
+//     $num++;
+// }
+// $n = 5;
+// addOne($n);
+// echo $n;
+
+function factorial($n) {
+    if ($n <= 1) return 1;
+    return $n * factorial($n - 1);
 }
 
-$expensive = array_filter($products, 'filterExpensive');
-print_r($expensive);
-
-// b) Mapping to Apply Discount
-
-$discounted = array_map('applyDiscount', $products);
-print_r($discounted);
 
 ?>
