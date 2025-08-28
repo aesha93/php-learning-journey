@@ -247,4 +247,131 @@ echo $discount(1500); // Expected: 1200
 
 * Use for short, clear calculations.
 
+# 🔥 PHP Functions (Remaining Topics with Exercise + Challenge)
+
 ---
+
+## 1️⃣ Scope & Lifetime of Variables
+
+### Concept:
+
+* **Local** → variables inside a function.
+* **Global** → declared outside, need `global` keyword to access inside.
+* **Static** → remembers value between function calls.
+
+✅ **Exercise (Static variable):**
+
+```php
+<?php
+function callCounter() {
+    static $count = 0;  // static variable
+    $count++;
+    echo "This function was called $count times\n";
+}
+
+callCounter(); // 1
+callCounter(); // 2
+callCounter(); // 3
+```
+
+🎯 **Challenge:**
+Create two functions:
+
+* `increaseCounter()` → increases a global `$counter`
+* `showCounter()` → prints the current value of `$counter`
+
+Use `global` keyword to share `$counter`.
+
+---
+
+## 2️⃣ Type Declarations & Strict Typing
+
+### Concept:
+
+* Add type hints to function parameters and return values.
+* `declare(strict_types=1);` forces strict typing.
+
+✅ **Exercise (Type hint):**
+
+```php
+<?php
+declare(strict_types=1);
+
+function add(int $a, int $b): int {
+    return $a + $b;
+}
+
+echo add(5, 7);   // 12
+// echo add(5, "7"); // ❌ error with strict_types
+```
+
+🎯 **Challenge:**
+Write a function `concatNames(string $first, string $last): string` that joins names.
+👉 Test it by passing numbers instead of strings, with and without `strict_types=1`.
+
+---
+
+## 3️⃣ Anonymous Functions & Closures
+
+### Concept:
+
+* Anonymous = function without name.
+* Closures = anonymous functions that **use variables from outside**.
+
+✅ **Exercise (Anonymous function):**
+
+```php
+<?php
+$greet = function($name) {
+    return "Hello, $name!";
+};
+
+echo $greet("Aesha"); // Hello, Aesha!
+```
+
+🎯 **Challenge (Closure with use):**
+Write a closure `$multiplier` that multiplies a number by some fixed value (e.g. 5).
+👉 Use `use($factor)` to capture the multiplier from outside.
+
+---
+
+## 4️⃣ Arrow Functions (`fn`)
+
+### Concept:
+
+* Short form of closures.
+* Example: `fn($x) => $x * 2`
+
+✅ **Exercise (array\_map with arrow function):**
+
+```php
+<?php
+$numbers = [1, 2, 3, 4];
+$squares = array_map(fn($n) => $n * $n, $numbers);
+
+print_r($squares); // [1,4,9,16]
+```
+
+🎯 **Challenge (array\_filter with arrow function):**
+Filter out only even numbers from `[1,2,3,4,5,6]` using `array_filter` and an arrow function.
+
+---
+
+## 5️⃣ Variable Functions
+
+### Concept:
+
+* You can call a function using a string variable containing its name.
+
+✅ **Exercise:**
+
+```php
+<?php
+function hello() {
+    echo "Hello World\n";
+}
+
+$func = "hello";
+$func(); // calls hello()
+```
+
