@@ -33,7 +33,7 @@ echo $fullName; // Output: Laptop - Gaming
 ```php
 $productName = "Laptop";
 $productPrice = 1200;
-echo "The product $productName costs $$productPrice"; 
+echo "The product $productName costs $productPrice"; 
 // Output: The product Laptop costs $1200
 ```
 
@@ -480,5 +480,154 @@ Absolutely! Let’s create a **comprehensive summary of PHP string functions** w
 | -------- | ----------------- | ---------------- |
 | `chr()`  | ASCII → character | `chr(65) → "A"`  |
 | `ord()`  | Character → ASCII | `ord("A") → 65`  |
+
+---
+
+Of course. Here is a categorized list of the most common and useful built-in string manipulation functions in PHP, along with a brief description of what each one does.
+
+---
+### Searching, Finding & Comparing
+
+* **`strpos()`**: Finds the numeric position of the **first** occurrence of a substring.
+* **`strrpos()`**: Finds the numeric position of the **last** occurrence of a substring.
+* **`stripos()`**: Same as `strpos()`, but **case-insensitive**.
+* **`strripos()`**: Same as `strrpos()`, but **case-insensitive**.
+* **`strstr()`**: Finds the first occurrence of a substring and returns the rest of the string from that point onward.
+* **`strchr()`**: An alias of `strstr()`.
+* **`stristr()`**: Same as `strstr()`, but **case-insensitive**.
+* **`str_contains()`**: A modern (PHP 8+) function that returns a simple `true` or `false` if a string contains a substring.
+* **`strcmp()`**: Compares two strings in a **case-sensitive** manner. Returns `< 0` if the first is less than the second, `> 0` if it's greater, and `0` if they are equal.
+* **`strcasecmp()`**: Same as `strcmp()`, but **case-insensitive**.
+* **`strncmp()`**: Compares a specific number of characters from the beginning of two strings (**case-sensitive**).
+
+---
+### Replacing & Modifying
+
+* **`str_replace()`**: Replaces all occurrences of a search string with a replacement string (**case-sensitive**).
+* **`str_ireplace()`**: Same as `str_replace()`, but **case-insensitive**.
+* **`substr_replace()`**: Replaces a portion of a string with another string.
+* **`strtr()`**: Translates (replaces) characters or strings based on a provided mapping.
+* **`strrev()`**: Reverses a string.
+* **`str_shuffle()`**: Randomly shuffles all the characters in a string.
+
+---
+### Extracting & Slicing
+
+* **`substr()`**: Returns a specific portion (a slice) of a string.
+* **`substr_count()`**: Counts how many times a substring occurs in a string.
+
+---
+### Formatting, Padding & Trimming
+
+* **`trim()`**: Removes whitespace (or other characters) from the **beginning and end** of a string.
+* **`ltrim()`**: Removes whitespace from the **left side (beginning)** of a string.
+* **`rtrim()`**: Removes whitespace from the **right side (end)** of a string.
+* **`str_pad()`**: Pads a string to a certain length with another string.
+* **`nl2br()`**: Inserts HTML line break tags (`<br>`) before all newlines (`\n`) in a string.
+* **`wordwrap()`**: Wraps a string to a given number of characters.
+* **`printf()` / `sprintf()`**: Formats a string according to a specific pattern (e.g., for numbers, dates). `printf` echoes the result, while `sprintf` returns it as a string.
+
+---
+### Case Conversion
+
+* **`strtolower()`**: Converts a string to all **lowercase**.
+* **`strtoupper()`**: Converts a string to all **uppercase**.
+* **`ucfirst()`**: Converts the **first character** of a string to uppercase.
+* **`ucwords()`**: Converts the **first character of every word** in a string to uppercase.
+
+---
+### Splitting & Joining
+
+* **`explode()`**: Splits a string into an **array** of strings based on a delimiter.
+* **`implode()` / `join()`**: Joins the elements of an **array** into a single string using a "glue" string.
+
+---
+### Information & Analysis
+
+* **`strlen()`**: Returns the length of a string (number of bytes).
+* **`mb_strlen()`**: Returns the length of a string (number of characters, important for multi-byte characters like emojis or accented letters).
+* **`count_chars()`**: Returns information about the characters used in a string.
+* **`str_word_count()`**: Counts the number of words in a string.
+
+---
+### HTML & URL Functions
+
+* **`htmlspecialchars()`**: Converts special HTML characters (like `<` and `>`) into their entity equivalents (e.g., `&lt;` and `&gt;`) to prevent XSS attacks.
+* **`htmlentities()`**: Converts all applicable characters to HTML entities.
+* **`strip_tags()`**: Strips all HTML and PHP tags from a string.
+* **`urlencode()` / `urldecode()`**: Encodes a string to be used in a URL query and decodes it back.
+* **`parse_str()`**: Parses a URL query string into variables.
+
+
+### what is diffrence between the preg_match and preg_match_all?
+---
+
+### **preg\_match()**
+
+* **Purpose:** Finds the *first* match of a regex pattern in a string.
+* **Usage:**
+
+  ```php
+  preg_match($pattern, $subject, $matches);
+  ```
+* **What it returns:**
+
+  * `1` → if a match is found
+  * `0` → if no match is found
+  * `$matches[0]` contains the *first* full match
+
+✅ Example:
+
+```php
+$str = "I love PHP and Regex";
+preg_match("/\b\w+\b/", $str, $matches);
+print_r($matches);
+```
+
+👉 Output:
+
+```
+Array ( [0] => I )
+```
+
+(it only got the **first word**, not all)
+
+---
+
+### **preg\_match\_all()**
+
+* **Purpose:** Finds *all* matches of a regex pattern in a string.
+* **Usage:**
+
+  ```php
+  preg_match_all($pattern, $subject, $matches);
+  ```
+* **What it returns:**
+
+  * Number of matches found
+  * `$matches[0]` contains an array of *all* full matches
+
+✅ Example:
+
+```php
+$str = "I love PHP and Regex";
+preg_match_all("/\b\w+\b/", $str, $matches);
+print_r($matches[0]);
+```
+
+👉 Output:
+
+```
+Array ( [0] => I [1] => love [2] => PHP [3] => and [4] => Regex )
+```
+
+(it got **all words**)
+
+---
+
+### 🔑 **Main Difference**
+
+* `preg_match()` → stops after the first match.
+* `preg_match_all()` → keeps going and finds every possible match.
 
 ---
