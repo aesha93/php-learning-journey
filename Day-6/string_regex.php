@@ -1302,18 +1302,18 @@ function extractLinks($tweets){
 
     // echo "<pre>"; print_r($password);die();
 
-// Minimum 8 characters
+// // Minimum 8 characters
 
-$text = "Item1 ItemX Item2 ItemY";
+// $text = "Item1 ItemX Item2 ItemY";
 
-// Regex explanation:
-// \b      → word boundary
-// \w+     → matches word characters (letters, digits, underscore)
-// (?!\d)  → negative lookahead: ensures word is NOT followed by a digit
-// \b      → word boundary
-$pattern = '/\b\w+\b(?!\d)/';
+// // Regex explanation:
+// // \b      → word boundary
+// // \w+     → matches word characters (letters, digits, underscore)
+// // (?!\d)  → negative lookahead: ensures word is NOT followed by a digit
+// // \b      → word boundary
+// $pattern = '/\b\w+\b(?!\d)/';
 
-preg_match_all($pattern, $text, $matches);
+// preg_match_all($pattern, $text, $matches);
 
-print_r($matches[0]);
+// print_r($matches[0]);
 
