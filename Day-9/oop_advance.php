@@ -403,15 +403,15 @@
 // $newPrice = $d->applyDiscount($product);
 // echo PriceHelper::format($newPrice);
 
-// // Challenge 1: Abstract + Polymorphism
+// Challenge 1: Abstract + Polymorphism
 
-// // Create an abstract Payment class with method pay($order).
+// Create an abstract Payment class with method pay($order).
 
-// // Implement CashOnDelivery and CreditCard classes.
+// Implement CashOnDelivery and CreditCard classes.
 
-// // Given an order array (['id'=>101, 'total'=>500]), call pay() for both methods.
+// Given an order array (['id'=>101, 'total'=>500]), call pay() for both methods.
 
-// // Expected output: different payment messages.
+// Expected output: different payment messages.
 
 // abstract class Payment {
 //     abstract public function pay($order);
@@ -427,685 +427,517 @@
 // $payment = new CashOnDelivery();
 // echo $payment->pay($order);
 
-// 1. Inheritance
+// Normal Constructor
 
-// class Product{
-//     public $data;
-//     public  function __construct($data){
-//         $this->data = $data;
-//     }
-
-//     public function getName(){
-//         return $this->data['name'];
-//     }
-// }
-
-// class   SpecialProduct extends Product{
-//     public function getDiscountedPrice(){
-//         return $this->data['price'] * 0.9;
-//     }
-// }
-
-// $productData = ['name' => 'T-Shirt', 'price' => 100];
-// $special = new SpecialProduct($productData);
-
-// echo $special->getName();
-// echo $special->getDiscountedPrice();
-
-// Polymorphism
-
-// class Product{
-//     public function getType(){
-//         return "Genric Product";
-//     }
-// }
-
-// class DigitalProduct extends Product{
-//     public function getType(){
-//         return "Digital DOwnload";
-//     }
-// }
-
-// class PhysicalProduct extends Product{
-//     public function getType(){
-//         return "Physical Item";
-//     }
-// }
-
-// $products = [new DigitalProduct(), new PhysicalProduct()];
-
-// foreach($products as $p){
-//     echo $p->getType(). "<br>";
-// }
-
-// 3. Abstract Classes
-
-
-// abstract class ShippingMethod {
-//     abstract public function calculateCost($order);
-
-//     public function getLabel() {
-//         return "Shipping Method";
-//     }
-// }
-
-// class FreeShipping extends ShippingMethod {
-//     public function calculateCost($order) {
-//         return 0;
-//     }
-// }
-
-// $order = ['subtotal' => 200];
-// $ship = new FreeShipping();
-// echo $ship->calculateCost($order); // Output: 0
-
-// 4. Interfaces
-
-// interface PaymentMethod {
-//     public function pay($order);
-// }
-
-// class PayPal implements PaymentMethod{
-//     public function pay($order){
-//         return "Paid with Paypal: ". $order['total'];
-//     }
-// }
-
-// $order = ['toatal' => 300];
-// $payment = new Paypal();
-// echo $payment->pay($order);
-
-// class Product{
-//     Private $data = [];
-
-//     public function __construct($data){
-//         $this->data = $data;
-//     }
-
-//     public function __get($name){
-//         return $this->data[$name] ?? "Not found";
-//     }
-
-//     public function __set($name, $value){
-//         $this->data[$name] = $value;
-//     }
-
-//     public function __call($name, $args){
-//         return "Method $name does not exist";
-//     }
-// }
-
-// $p = new Product(['name' => 'Shoes']);
-// echo $p->name;
-// $p->color = "Red";
-// echo $p->color;
-// echo $p->undefinedMethod();
-// What is Inheritance?
-// Inheritance is when one class (child class) can use the properties and methods of another class (parent class).
-
-// 🔹 2. Example Without Inheritance
-
-// class Car{
-//     public $brand;
-//     public $color;
-
-//     public function start(){
-//         return "Car Started!";
-//     }
-// }
-
-// $car1 = new Car();
-// $car1->brand = "Toyota";
-// $car1->color = "Red";
-
-// echo $car1->start();
-
-//3.Example With Inheritance
-
-//  class Vehicle{
-//     public $brand;
-//     public $color;
-
-//     public function start(){
-//         return "Vehicle started!";
-//     }
-//  }
-
-//  class Car extends Vehicle {
-//     public $seats;
-
-//     public function carInfo(){
-//         return "Brand: $this->brand, Color: $this->color, Seats: $this->seats";
-//     }
-//  }
-
-
-//  class Truck extends Vehicle{
-//     public $capacity;
-
-//     public function truckInfo(){
-//         return "Brand: $this->brand, Color: $this->color, Capacity: $this->capacity tons";
-//     }
-//  }
-
-// // 4. Using the Classes
-
-// $car = new Car();
-// $car->brand = "Toyota";
-// $car->color = "Red";
-// $car->seats = 4;
-
-// echo $car->start();
-// echo $car->carInfo();
-
-// $truck = new Truck();
-// $stuck->brand = "Volvo";
-// $truck->color = "Blue";
-// $truck->capacity = 20;
-
-// echo $truck->start();
-// echo $truck->truckInfo();
-
-
-// Parent class
-// class Animal {
+// class User {
 //     public $name;
-//     public $color;
+//     public $email;
 
-//     public function eat() {
-//         return $this->name . " is eating.". $this->color . " is my color.". "<br>";
+//     public function __construct($name, $email) {
+//         $this->name  = $name;
+//         $this->email = $email;
 //     }
 // }
 
-// // Child class
-// class Dog extends Animal {
-//     public function bark() {
-//         return $this->name . " says Woof!". $this->color . " is my color."."<br>";
-//     }
-// }
+// $user = new User("Aesha", "aesha@example.com");
+// echo $user->name;   // Aesha
 
-// // Child class
-// class Cat extends Animal {
-//     public function meow() {
-//         return $this->name . " says Meow!". $this->color . " is my color."."<br>";
-//     }
-// }
+// Constructor with Default Values
 
-// // Usage
-// $dog = new Dog();
-// $dog->name = "Tommy";
-// $dog->color = "Brown";
-// echo $dog->eat();   // inherited from Animal
-// echo $dog->bark();  // specific to Dog
-
-// $cat = new Cat();
-// $cat->name = "Kitty";
-// $cat->color = "White";
-// echo $cat->eat();   // inherited from Animal
-// echo $cat->meow();  // specific to Cat
-
-// class Employee{
+// class User {
 //     public $name;
-//     public $salary;
+//     public $email;
 
-//     public function getInfo(){
-//         return "Name: {$this->name}, salary: {$this->salary}";
+//     public function __construct($name = "Guest", $email = "guest@example.com") {
+//         $this->name  = $name;
+//         $this->email = $email;
 //     }
 // }
 
-// class Manager extends Employee {
-//     public $department;
+// $user1 = new User("Aesha", "aesha@example.com");
+// echo $user1->name;  // Aesha
 
-//     public function getInfo() {
-//         return parent::getInfo() . ", Department: {$this->department}";
-//     }
-// }
+// $user2 = new User();
+// echo $user2->name;  // Guest
 
-// class Developer extends Employee{
-//         public $language;
+// 3. Mixing Required + Default
 
-//         public function getInfo(){
-//             return parent::getInfo() . ", Language: {$this->language}";
-//         }
-// }
-
-// $mgr = new Manager();
-// $mgr->name = "Alice";
-// $mgr->salary = 80000;
-// $mgr->department = "HR";
-// echo $mgr->getInfo();
-
-// $dev = new Developer();
-// $dev->name = "Bob";
-// $dev->salary = 60000;
-// $dev->language = "PHP";
-// echo $dev->getInfo();
-
-// 🔹 Exercise 1: Vehicle Inheritance
-
-// 👉 Create a parent class Vehicle with:
-
-// Properties: $brand, $year
-
-// Method: getInfo() → return "Brand: X, Year: Y"
-
-// 👉 Create child classes:
-
-// Bike → add $type (sports, cruiser, etc.) and method getInfo() (override parent).
-
-// Bus → add $capacity and method getInfo() (override parent).
-
-// ✅ Expected Output Example:
-
-// Brand: Yamaha, Year: 2020, Type: Sports
-// Brand: Volvo, Year: 2018, Capacity: 50
-
-// class Vehicle {
-//     public $brand;
-//     public $year;
-
-//     public function getInfo(){
-//         return "Brand: {$this->brand}, Year: {$this->year}";
-//     }
-//  }
-
-// class Bike extends Vehicle{
-//     public $type;
-
-//     public function getInfo(){
-//         return parent::getInfo(). ", Type: {$this->type}";
-//     }
-// } 
-
-// class Bus extends Vehicle{
-//     public $capacity;
-
-//     public function getInfo(){
-//                 return parent::getInfo() . ", Capacity: {$this->capacity}";
-
-//     }
-// }
-
-// $bike = new Bike();
-// $bike->brand = "Yamaha";
-// $bike->year = 2020;
-// $bike->type = "Sports";
-// echo $bike->getInfo() . PHP_EOL;
-
-// $bus = new Bus();
-// $bus->brand = "Volvo";
-// $bus->year = 2018;
-// $bus->capacity = 50;
-// echo $bus->getInfo();
-
-// class Shape {
-//     public function area() {
-//         return "Area calculation not defined";
-//     }
-// }
-
-// class Circle extends Shape {
-//     public $radius;
-
-//     public function area() {
-//         return 3.14 * $this->radius * $this->radius;
-//     }
-// }
-
-// class Rectangle extends Shape {
-//     public $width;
-//     public $height;
-
-//     public function area() {
-//         return $this->width * $this->height;
-//     }
-// }
-
-// // Usage
-// $circle = new Circle();
-// $circle->radius = 5;
-// echo "Circle Area: " . $circle->area() . "<br>";
-
-// $rectangle = new Rectangle();
-// $rectangle->width = 10;
-// $rectangle->height = 5;
-// echo "Rectangle Area: " . $rectangle->area(). "<br>";
-
-
-// class Student{
+// class Product {
 //     public $name;
-//     public $rollNumber;
+//     public $price;
+//     public $stock;
 
-//     public function getInfo(){
-//         return "Name: {$this->name}, Roll: {$this->rollNumber}";
+//     public function __construct($name, $price = 100, $stock = 10) {
+//         $this->name  = $name;
+//         $this->price = $price;
+//         $this->stock = $stock;
 //     }
 // }
 
-// class GraduateStudent extends Student{
-//     public $thesisTitle;
+// $p1 = new Product("Laptop"); 
+// echo $p1->price;  // 100 (default)
+// echo $p1->stock;  // 10 (default)
 
-//     public function getInfo(){
-//          return parent::getInfo() . ", Thesis: {$this->thesisTitle}";
-//     }
-// }
+// $p2 = new Product("Phone", 500, 50); 
+// echo $p2->price;  // 500 (custom)
 
-// $student = new Student();
-// $student->name = "Aesha";
-// $student->rollNumber = "101";
-
-// $graduateStudent = new GraduateStudent();
-// $graduateStudent->name = "Niraj";
-// $graduateStudent->rollNumber = "102";
-// $graduateStudent->thesisTitle = "AI in Education";
-// echo $graduateStudent->getInfo();
-
-// class Employee{
-//     public $name;
-//     public $baseSalary;
-
-//     public function calculateSalary(){
-//         return $this->baseSalary;
-//     }
-// }
-
-// class FullTimeEmployee extends Employee{
-//     public $bonus;
-
-//     public function calculateSalary(){
-//         return $this->baseSalary + $this->bonus;
-//     }
-// }
-
-// class PartTimeEmployee extends Employee{
-//     public $hoursWorked;
-//     public $hourlyRate;
-
-//     public function calculateSalary(){
-//         return $this->hoursWorked * $this->hourlyRate;
-//     }
-// }
-
-// $fullTimeEmployee = new FullTimeEmployee;
-// $fullTimeEmployee->name = "Tiya";
-// $fullTimeEmployee->baseSalary = 30000;
-// $fullTimeEmployee->bonus = 30000;
-// echo "Full-time Salary: " . $fullTimeEmployee->calculateSalary() . "<br>";
-
-// $partTimeEmployee = new PartTimeEmployee;
-// $partTimeEmployee->hoursWorked = 100;
-// $partTimeEmployee->hourlyRate = 200;
-// echo "Part-time Salary: " . $partTimeEmployee->calculateSalary();
 
 // class Book{
 //     public $title;
-//      public $author;
-//       public $price;
+//     public $author;
 
-//       public function getInfo(){
-//         return "Title: {$this->title}, Author: {$this->author}, Price: {$this->price}";
-//       }
-// }
-// class EBook extends Book{
-//     public $fileSize;
+//     public function __construct($title, $author = "Unknown"){
+//         $this->title = $title;
+//         $this->author = $author;
+//     }
+
 //     public function getInfo(){
-//         return parent::getInfo()." File Size: {$this->fileSize} MB";
+//         return "Book: {$this->title} by {$this->author}";
 //     }
 // }
 
-// class PrintedBook extends Book{
-//     public $shippingCost;
-//     public function getInfo(){
-//         $total = $this->price + $this->shippingCost;
-//         return parent::getInfo()." Total Price: {$total}";
+// $book1 = new Book("Harry Potter","J.K. Rowling");
+// echo "Book: {$book1->title} by {$book1->author}"."<br>";
+// $book = new Book("Unknown");
+// echo "Book: {$book->title} by {$book->author}"."<br>";
+
+// class Product{
+//     public $name;
+//     public $price;
+//     public $stock;
+
+//     public function __construct($name, $price = 100, $stock = 10)
+//     {
+//         $this->name = $name;
+//         $this->price = $price;
+//         $this->stock = $stock;   
+//     }
+
+//     public function getDetails(){
+//         return "Product: {$this->name}, Price: {$this->price}, Stock: {$this->stock}";
 //     }
 // }
 
-// $ebook = new EBook;
-// $ebook->title = "PHP Basics";
-// $ebook->author = "John";
-// $ebook->price = 200;
-// $ebook->fileSize = "5";
-// echo $ebook->getInfo()."<br>";
+// $product = new Product("Laptop");
+// echo $product->getDetails(). "<br>";
 
-// $printedBook = new PrintedBook();
-// $printedBook->title = "OOP in PHP";
-// $printedBook->author = "Aesha";
-// $printedBook->price = 300;
-// $printedBook->shippingCost = 50;
-// echo $printedBook->getInfo();
+// $product1 = new Product("Phone", 500, 50);
+// echo $product1->getDetails();
+
+// Exercise 3 (Advanced) → Real-World Style
+
+// 👉 Create a User class with:
+
+// Properties: id, name, role
+
+// Constructor →
+
+// id → required
+
+// name → required
+
+// role → default "customer"
+
+// Method: getProfile() → "ID: 1, Name: Aesha, Role: customer"
+
+// class User{
+//     public $id;
+//     public $name;
+//     public $role;
+
+//     public function __construct($id, $name, $role = "customer"){
+//         $this->id = $id;
+//         $this->name = $name;
+//         $this->role = $role;
+//     }
+
+//     public function getProfile(){
+//         return "ID: {$this->id}, Name: {$this->name}, Role: {$this->role}";
+//     }
+// }
+
+// $user = new User("1", "Aesha");
+// echo $user->getProfile()."<br>";
+
+// $user1 = new User("2", "John", "admin");
+// echo $user1->getProfile();
+
+//Wrong pattern
+// class BankAccount{
+//     public $balance = 0;
+// }
+
+// $acc = new BankAccount();
+// $acc->balance = -1000;
 
 // class BankAccount{
-//     private $accountNumber;
-//     protected $balance;
+//     private $balance = 0;
 
-//     public function __construct($accNum, $balance){
-//         $this->accountNumber = $accNum;
+//     public function deposit($amount) {
+//         if($amount > 0){
+//             $this->balance += $amount;
+//         }
+//     }
+
+//     public function getBalance() {
+//         return $this->balance;
+//     }
+
+// }
+
+// $acc = new BankAccount();
+// $acc->deposit(500);
+// echo $acc->getBalance();   // ✅ 500
+
+// Access Modifiers in Action
+
+// class Demo {
+//     public $x = 10;
+// }
+
+// $d = new Demo();
+// echo $d->x;
+
+// private → Only inside same class
+
+// class Demo{
+//     private $x = 10;
+
+//     public function getX(){
+//         return $this->x;
+//     }
+// }
+// $d = new Demo();
+// echo $d->getX(); 
+
+// protected → Class + Child
+
+// class ParentDemo{
+//     protected $x = 10;
+// }
+
+// class ChildDemo extends ParentDemo{
+//     public function showX(){
+//         return $this->x;
+//     }
+// }    
+
+// $child = new ChildDemo();
+// echo $child->showX();  // 10
+
+// class Car{
+//     private $model;
+
+//     public function __construct($model)
+//     {
+//         $this->model = $model;
+//     }
+
+//     public function getModel(){
+//         return "Car model: {$this->model}";
+//     }
+// }
+
+// $car = new Car("Tesla");
+// echo $car->getModel();
+
+// class BankAccount{
+//     private $balance = 0;
+
+//     public function __construct($balance)
+//     {
 //         $this->balance = $balance;
 //     }
 
-//     public function getAccountNumber(){
-//         return $this->accountNumber;
-//     }
-
-//     public function getBalance(){
-//         return $this->balance;
-//     }
-// }
-
-// $bankAccount = new BankAccount("10245415414", "100000");
-// echo $bankAccount->getAccountNumber(). "<br>";
-// echo $bankAccount->getBalance(). "<br>";
-
-
-// class CurrentAccount extends BankAccount{
-//     private $overdraftLimit;
-
-//     public function setOverdraft($limit){
-
+//     public function deposit($amount){
+//         if($amount > 0){
+//             $this->balance += $amount;
+//         }
+//         return "Depositing" ."   ". $this->balance;
 //     }
 
 //     public function withdraw($amount){
-
+//         if($amount > 0){
+//             $this->balance -= $amount;
+//         }
+//         return "Withdrawing" ."   ". $amount;
 //     }
-//     public function getInfo(){
 
+//     public function getBalance(){
+//         return "Balance" ."   ". $this->balance;
 //     }
 // }
 
-// abstract class Shape {
+// $bankAccount = new BankAccount(0);
+// echo $bankAccount->deposit(500)."<br>";
+// echo $bankAccount->withdraw(200)."<br>";
+// echo $bankAccount->getBalance(300)."<br>";
+
+// interface Logger{
+//     public function log($message);
+// }
+
+// class FileLogger implements Logger {
+//     public function log($message){
+//             echo "Logging to file: $message<br>";
+//     }
+// }
+
+// class DatabaseLogger implements Logger{
+//     public function log($message){
+//           echo "Logging to database: $message<br>";
+//     }
+// }
+
+// function doLog(Logger $logger, $msg) {
+//     $logger->log($msg);
+// }
+
+// $fileLogger = new FileLogger();
+// $dbLogger = new DatabaseLogger();
+
+// doLog($fileLogger, "File log example");
+// doLog($dbLogger, "DB log example");
+
+
+// class Animal {
+//     public function speak() {
+//         return "Animal sound";
+//     }
+// }
+
+// class Dog extends Animal {
+//     public function speak() {
+//         return "Woof";
+//     }
+// }
+
+// class Cat extends Animal {
+//     public function speak() {
+//         return "Meow";
+//     }
+// }
+
+// // Test polymorphism
+// $animals = [new Dog(), new Cat()];
+
+// foreach ($animals as $animal) {
+//     echo $animal->speak() . "<br>";
+// }
+
+// interface Payment{
+//     public function pay($amount);
+// }
+
+// class PaypalPayment implements Payment{
+//     public function pay($amount){
+//         return "Paid $amount using PayPal";
+//     }
+// }
+
+// class StripePayment implements Payment{
+//     public function pay($amount){
+//         return "Paid $amount using Stripe";
+//     }
+// }
+
+// function processPayment(Payment $payment, $amount){
+//     echo $payment->pay($amount)."<br>";
+// }
+
+// processPayment(new PaypalPayment(), 100);
+// processPayment(new StripePayment(), 200);
+
+// abstract  class Shape {
 //     abstract public function area();
-
-//     public function description() {
-//         return "This is a shape.";
-//     }
 // }
 
-// class Circle extends Shape {
-//     private $radius;
-
-//     public function __construct($radius) {
-//         $this->radius = $radius;
-//     }
-
-//     // Must implement area()
-//     public function area() {
-//         return pi() * pow($this->radius, 2);
-//     }
+// interface Drawable{
+//     public function draw();
 // }
 
-
-// class Rectangle extends Shape {
+// class  Rectangle extends Shape implements Drawable{
 //     private $width;
 //     private $height;
 
-//     public function __construct($width, $height){
-//         $this->width = $width;
-//         $this->height = $height;
+//     public function __construct($w, $h)
+//     {
+//         $this->width = $w;
+//         $this->height = $h;
 //     }
 
-//     public function area(){
+//     public function area() {
 //         return $this->width * $this->height;
 //     }
-// }
 
-// $circle = new Circle(5);
-// echo "Circle Area: " . $circle->area() . "<br>"; 
-
-// $rect = new Rectangle(4, 6);
-// echo "Rectangle Area: " . $rect->area() . "<br>"; 
-
-// echo $circle->description();
-
-// abstract class Employee {
-//     protected $name;
-//     protected $baseSalary;
-
-//     public function __construct($name, $baseSalary){
-//         $this->name = $name;
-//         $this->baseSalary = $baseSalary;
+//     public function draw() {
+//         return "Drawing a rectangle";
 //     }
 
-//     abstract public function calculateSalary();
+// }
 
-//     public function getName(){
-//         return $this->name;
+// class Circle extends Shape implements Drawable {
+//     private $radius;
+
+//     public function __construct($r) {
+//         $this->radius = $r;
+//     }
+
+//     public function area() {
+//         return round(pi() * $this->radius * $this->radius, 1);
+//     }
+
+//     public function draw() {
+//         return "Drawing a circle";
 //     }
 // }
 
-// class FullTimeEmployee extends Employee{
-//     private $bonus;
+// // Test polymorphism
+// $shapes = [new Rectangle(10, 5), new Circle(5)];
 
-//     public function __construct($name, $baseSalary, $bonus){
-//         parent::__construct($name, $baseSalary);
-//         $this->bonus = $bonus;
+// foreach ($shapes as $shape) {
+//     echo get_class($shape) . " area: " . $shape->area() . ", " . $shape->draw() . "<br>";
+// }
+
+
+// abstract class Shape {
+//     abstract public function area();
+// }
+
+// interface Drawable {
+//     public function draw();
+// }
+
+// class Rectangle extends Shape implements Drawable {
+//     private $width;
+//     private $height;
+
+//     public function __construct($w, $h) {
+//         $this->width = $w;
+//         $this->height = $h;
 //     }
 
-//     public function calculateSalary(){
-//         return $this->baseSalary + $this->bonus;
+//     public function area() {
+//         return $this->width * $this->height;
+//     }
+
+//     public function draw() {
+//         return "Drawing a rectangle";
 //     }
 // }
 
-// class PartTimeEmployee extends Employee {
-//     private $hoursWorked;
-//     private $hourlyRate;
+// class Circle extends Shape implements Drawable {
+//     private $radius;
 
-//     public function __construct($name, $baseSalary, $hoursWorked, $hourlyRate) {
-//         parent::__construct($name, $baseSalary);
-//         $this->hoursWorked = $hoursWorked;
-//         $this->hourlyRate = $hourlyRate;
+//     public function __construct($r) {
+//         $this->radius = $r;
 //     }
 
-//     public function calculateSalary() {
-//         // Part time salary = hours × rate
-//         return $this->baseSalary + ($this->hoursWorked * $this->hourlyRate);
+//     public function area() {
+//         return round(pi() * $this->radius * $this->radius, 1);
 //     }
-// }
 
-// $emp1 = new FullTimeEmployee("Aesha", 30000, 5000);
-// $emp2 = new PartTimeEmployee("Ravi", 10000, 40, 200);
-
-// echo $emp1->getName() . " Salary: " . $emp1->calculateSalary() . "<br>";
-// echo $emp2->getName() . " Salary: " . $emp2->calculateSalary() . "<br>";
-
-// // Step 1: Create an abstract class
-// abstract class Vehicle {
-//     // Abstract methods (must be defined in child classes)
-//     abstract public function move();
-//     abstract public function fuelType();
-
-//     // A normal method (optional, can be inherited directly)
-//     public function info() {
-//         return "This is a type of vehicle.";
+//     public function draw() {
+//         return "Drawing a circle";
 //     }
 // }
 
-// // Step 2: Create a Car class (inherits Vehicle)
-// class Car extends Vehicle {
-//     public function move() {
-//         return "Car moves by driving on the road.";
+// // Test polymorphism
+// $shapes = [new Rectangle(10, 5), new Circle(5)];
+
+// foreach ($shapes as $shape) {
+//     echo get_class($shape) . " area: " . $shape->area() . ", " . $shape->draw() . "<br>";
+// }
+
+// use Magento\Quote\Api\Data\PaymentInterface;
+
+// interface PaymentMethodInterface{
+//     public function authorize(float $amount): bool;
+//     public function capture(float $amount): bool;
+// }
+
+// abstract class AbstractPayment implements PaymentInterface{
+//     protected string $methodCode;
+
+//     public function __construct(string $methodCode)
+//     {
+//         $this->methodCode = $methodCode;
 //     }
 
-//     public function fuelType() {
-//         return "Car uses Petrol or Diesel.";
+//     public function getMethodCode():string
+//     {
+//         return $this->methodCode;
+//     }
+
+//     abstract public function getTitle(): string;
+// } 
+
+// class CreditCardPayment extends AbstractPayment {
+//     public function getTitle(): string {
+//         return "Credit Card";
+//     }
+
+//     public function authorize(float $amount): bool {
+//         echo "Authorizing $amount via Credit Card\n";
+//         return true;
+//     }
+
+//     public function capture(float $amount): bool {
+//         echo "Capturing $amount via Credit Card\n";
+//         return true;
 //     }
 // }
 
-// // Step 3: Create a Bicycle class (inherits Vehicle)
-// class Bicycle extends Vehicle {
-//     public function move() {
-//         return "Bicycle moves by pedaling.";
+
+// class PayPalPayment extends AbstractPayment {
+//     public function getTitle(): string {
+//         return "PayPal";
 //     }
 
-//     public function fuelType() {
-//         return "Bicycle uses Human Energy.";
+//     public function authorize(float $amount): bool {
+//         echo "Authorizing $amount via PayPal\n";
+//         return true;
+//     }
+
+//     public function capture(float $amount): bool {
+//         echo "Capturing $amount via PayPal\n";
+//         return true;
 //     }
 // }
 
-// // Step 4: Test the program
-// $myCar = new Car();
-// echo $myCar->info() . "<br>";      // inherited method
-// echo $myCar->move() . "<br>";      // abstract method implemented in Car
-// echo $myCar->fuelType() . "<br>";  // abstract method implemented in Car
+// $payments = [
+//     new CreditCardPayment("cc"),
+//     new PayPalPayment("paypal")
+// ];
 
-// echo "--------------------"."<br>";
+// foreach ($payments as $payment) {
+//     echo "Method: " . $payment->getTitle() . " (Code: " . $payment->getMethodCode() . ")\n";
+//     $payment->authorize(100.00);
+//     $payment->capture(100.00);
+//     echo "------------------------\n";
+// }
 
-// $myBike = new Bicycle();
-// echo $myBike->info() . "<br>";      // inherited method
-// echo $myBike->move() . "<br>";      // abstract method implemented in Bicycle
-// echo $myBike->fuelType() . "<br>";  // abstract method implemented in Bicycle
 
-
-abstract class Shape{
-    public $width;
-    public $height;
-
-    public function __construct($width = 0, $height = 0) {
-        $this->width = $width;
-        $this->height = $height;
-    }
-
-    abstract function getArea();
-    abstract function getPerimeter();
+interface Flyable{
+    public function fly();
 }
 
-class Rectangle extends Shape {
-
-    public function __construct($width = 10, $height = 5){
-       parent::__construct($width, $height);
-    }
-
-
-   public function getArea(){
-        return $this->width * $this->height;
-   }
-
-   public function getPerimeter(){
-        return 2 * ($this->width + $this->height);
-   }
+interface Swimmable{
+    public function swim();
 }
 
-class Circle extends Shape {
-    public $radius;
-
-    public function __construct($radius = 7){
-       $this->radius = $radius;
+class Duck implements Flyable,Swimmable{
+    public function fly(){
+        echo "Duck is flying"."<br>";
     }
 
-   public function getArea(){
-        return  pi() * pow($this->radius, 2);
-   }
-
-   public function getPerimeter(){
-        return 2 * pi() * $this->radius;
-   }
+    public function swim() {
+        echo "Duck is swimming"."<br>";
+    }
 }
 
-$rectangle = new Rectangle();
-echo "Rectangle Area:" . $rectangle->getArea()."<br>";
-echo "Rectangle Perimeter: ". $rectangle->getPerimeter()."<br>";
+$duck = new Duck();
+$duck->fly();
+$duck->swim();
 
-$circle = new Circle();
-echo "Circle Area: " . $circle->getArea()."<br>";
-echo "Circle Perimeter: ". $circle->getPerimeter()."<br>";
-
-?>  
+?>
