@@ -508,31 +508,257 @@
 //  echo $product->name . "<br>";
 //   echo $product->price . "<br>";
 
-class Employee{
-     private $data = [];
+// class Employee{
+//      private $data = [];
 
-     public function  __construct($name, $salary){
-        $this->data['name'] = $name;
-        $this->data['salary'] = ($salary < 0) ? 0 : $salary;
-        $this->data['department'] = "";
-     }
+//      public function  __construct($name, $salary){
+//         $this->data['name'] = $name;
+//         $this->data['salary'] = ($salary < 0) ? 0 : $salary;
+//         $this->data['department'] = "";
+//      }
 
-    public function __set($prop, $value){
-        if($prop === 'department'){
-            $this->data[$prop] = $value;
-        }
+//     public function __set($prop, $value){
+//         if($prop === 'department'){
+//             $this->data[$prop] = $value;
+//         }
+//     }
+
+//      public function __get($prop){
+//          return $this->data[$prop] ?? "Property '$prop' not set";
+//     }
+// }
+// $employee = new Employee("Aesha", -5000);
+// $employee->department = 'IT';
+
+// echo "Name: " . $employee->name . "<br>";
+// echo "Salary: " . $employee->salary . "<br>";
+// echo "Department: " . $employee->department . "<br>";
+
+// class Student{
+//     public $name;
+
+//     public function __construct($name){
+//         $this->name = $name;
+//         echo "Student $name has been created."."<br>";
+//     }
+
+//     public function __destruct()
+//     {
+//         echo "Student $this->name hase beeen removed"."<br>";
+//     }
+// }
+// $str = new Student("Aesha");
+// $str = new Student("Ravi");
+
+
+// class Employee {
+//     private $data = [];
+
+//     public function __set($prop, $value){
+//         echo "Setting $prop to $value"."<br>";
+//         $this->data[$prop] = $value;
+//     }
+
+//     public function __get($prop) {
+//         echo "Getting $prop"."<br>";
+//         return $this->data[$prop] ?? null;
+//     }
+// }
+
+// $emp = new Employee();
+// $emp->salary =  50000;   
+// echo $emp->salary;  
+
+// class Calculator{
+//     // public function __call($name, $args){
+//     //     echo "You tried to call $name with arguments: " . implode(", ", $args) . "\n";
+//     // }
+//     public function __call($name, $args){
+//         echo "You tried to call $name with arguments: " . implode(", ", $args) . "\n";
+//     }
+// }
+// $calc = new Calculator();
+// $calc->sub(10, 20);  // Method does not exist → __call() is triggered
+
+// class User{
+//     private $name;
+
+//     public function __construct($name) {
+//         $this->name = $name;
+//     }
+
+//     public function __toString(){
+//         return "User: " .$this->name;
+//     }
+
+// }
+
+// $user = new User("Aesha");
+// echo $user;
+
+// class Student{
+//     public $name;
+
+//     public function __construct($name){
+//         $this->name = $name;
+//         echo "Student $name created"."<br>";
+//     }
+// }
+
+// $st1 = new Student("Aesha");
+
+// class Test{
+//     public function __destruct()
+//     {
+//         echo "Object destroyed"."<br>";
+//     }
+// }
+
+// $obj = new Test(); 
+
+// class Employee{
+//     private $data = ['salary' => 50000];
+
+//     public function __get($prop){
+//         echo "Trying to get $prop"."<br>";
+//         return $this->data[$prop] ?? null;
+//     }
+// }
+
+// $emp = new Employee();
+// echo $emp->salary; // __get is called
+// class Employee {
+//     private $data = [];
+
+//     public function __set($prop, $value) {
+//         echo "Setting '$prop' to '$value'\n";
+//         $this->data[$prop] = $value;
+//     }
+
+//     public function __get($prop){
+//         echo "Trying to get $prop"."<br>";
+//         return $this->data[$prop] ?? null;
+//     }
+// }
+
+// $emp = new Employee();
+// $emp->bonus = 1000; // __set is called
+
+// echo $emp->__get('bonus');
+
+// class Calculator {
+//     public function __call($method, $args) {
+//         echo "Method $method called with arguments: ". implode(", ", $args). "<br>";
+//     }
+// }
+
+// $calc = new Calculator();
+// $calc->add(10, 20); // __call triggered
+
+// class User{
+//     private $name;
+//     public function __construct($name){
+//         $this->name = $name;
+//     }
+
+//     public function __toString(){
+//         return "User: ". $this->name;
+//     }
+// }
+
+// $user = new User("Aesha");
+// echo $user // __toString triggered
+
+// class Student{
+//     public $name;
+//     public $marks;
+
+//     public function __construct($name, $marks){
+//         $this->name = $name;
+//         $this->marks = $marks;
+//     }
+
+//     public function __clone(){
+//         $this->name = "Copy of " . $this->name;
+//     }
+// }
+
+// $st1 = new Student("Aesha", 90);
+// $st2 = clone $st1;  // __clone() is triggered
+
+// echo $st1->name . "\n"; // Aesha
+// echo $st2->name . "\n"; // Copy of Aesha
+
+// class User {
+//     public $name;
+//     public $email;
+//     private $dbConnection;
+
+//     public function __construct($name, $email){
+//         $this->name = $name;
+//         $this->email = $email;
+//         $this->dbConnection = "connect to DB";
+//     }
+
+//     public function __sleep(){
+//         echo "Serializing..."."<br>";
+//         return['name', 'email'];
+//     }
+// }
+
+// $user = new User("Aesha","aesha@example.com");
+// $serialized = serialize($user);
+// echo $serialized;
+
+// class User {
+//     public $name;
+//     public $email;
+//     private $dbConnection;
+
+//     public function __construct($name, $email){
+//         $this->name = $name;
+//         $this->email = $email;
+//         $this->dbConnection = "Connected to DB";
+//     }
+
+//       public function __sleep() {
+//         echo "Serializing...\n";
+//         // Don't save dbConnection (not serializable)
+//         return ['name', 'email'];
+//     }
+// }
+
+// $user = new User("Aesha", "aesha@example.com");
+// $serialized = serialize($user);
+// echo $serialized;
+
+class User {
+    public $name;
+    public $email;
+    private $dbConnection;
+
+    public function __construct($name, $email) {
+        $this->name = $name;
+        $this->email = $email;
+        $this->dbConnection = "Connected to DB";
     }
 
-     public function __get($prop){
-         return $this->data[$prop] ?? "Property '$prop' not set";
+    public function __sleep() {
+        echo "Serializing...\n";
+        return ['name', 'email'];
     }
+
+    public function __wakeup(){
+        echo "waking up"."<br>";
+        $this->dbConnection = "Reconnected to DB";
+    }
+
 }
-$employee = new Employee("Aesha", -5000);
-$employee->department = 'IT';
 
-echo "Name: " . $employee->name . "<br>";
-echo "Salary: " . $employee->salary . "<br>";
-echo "Department: " . $employee->department . "<br>";
+$user = new User("Aesha", "aesha@example.com");
+$serialized = serialize($user);
 
-
+// Unserialize (restore)
+$restored = unserialize($serialized);
+print_r($restored);
 ?>

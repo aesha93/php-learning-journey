@@ -189,3 +189,142 @@ You can apply same contract to planes, birds, fish, etc.
 | `__clone`      | Clone object                      | Custom copy behavior  |
 | `__sleep`      | Serialize object                  | Select properties     |
 | `__wakeup`     | Unserialize object                | Reinitialize          |
+
+---
+
+# 🔹 Why Magic Methods Are Used in Magento?
+
+Magento uses magic methods mainly for **flexibility, dynamic property access, and reducing boilerplate code**.
+
+Let’s go one by one:
+
+---
+
+## 1. `__construct()` → Dependency Injection
+
+* Every Magento class relies on **constructor injection**.
+* Magento automatically creates objects and injects dependencies.
+
+✅ Example:
+
+```php
+class MyClass {
+    private $logger;
+
+    public function __construct(\Psr\Log\LoggerInterface $logger) {
+        $this->logger = $logger;
+    }
+}
+```
+
+👉 Magento creates `LoggerInterface` instance and passes it automatically.
+Without `__construct()`, dependency injection wouldn’t work.
+
+---
+
+## 2. `__destruct()` → Resource Cleanup
+
+* Rarely used directly, but useful in **DB adapters** or **file handlers**.
+* Example: when Magento closes DB connections after request ends.
+
+---
+
+## 3. `__get()` and `__set()` → Dynamic Data Models
+
+* Used in **Models, Data Objects, and EAV Entities**.
+* They let Magento handle properties without explicitly defining them.
+
+✅ Example:
+
+```php
+$product = $this->productRepository->getById(1);
+echo $product->getData('name');   // internally calls __get
+$product->setData('custom_attr', 'value'); // internally calls __set
+```
+
+👉 Thanks to `__get()` / `__set()`, Magento can support **dynamic attributes** (like custom product attributes) without writing new code each time.
+
+---
+
+## 4. `__call()` → Virtual/Generated Methods
+
+* Magento uses `__call()` for **magic getters & setters** (`getSomething`, `setSomething`) in models.
+* You don’t have to define each getter manually.
+
+✅ Example:
+
+```php
+$product->getSku(); // method not explicitly defined
+```
+
+👉 Internally handled via `__call()` → it looks into product data array.
+This is why all `getXxx` / `setXxx` methods just *work* even if not written in the class.
+
+---
+
+## 5. `__toString()` → Debugging & Logging
+
+* Some Magento objects implement this for easy logging.
+* Example: Exception classes return meaningful messages when cast to string.
+
+✅ Example:
+
+```php
+try {
+    throw new \Exception("Something went wrong!");
+} catch (\Exception $e) {
+    echo $e; // __toString prints the exception message
+}
+```
+
+---
+
+## 6. `__clone()` → Deep Copy in Collections
+
+* Used when Magento **clones entities** (e.g., product duplication in admin).
+* Ensures things like IDs are reset, not just copied.
+
+✅ Example: When you **Duplicate a product in admin**, Magento uses `__clone()` to create a new copy without reusing the same entity ID.
+
+---
+
+## 7. `__sleep()` and `__wakeup()` → Caching & Serialization
+
+* Magento **serializes objects** when storing them in cache/session.
+* `__sleep()` → decide which properties should be stored.
+* `__wakeup()` → restore non-serializable data (like DB connections).
+
+✅ Example:
+
+```php
+Magento\Framework\Serialize\Serializer\Json
+```
+
+uses serialization extensively for storing configs, sessions, cache.
+
+---
+
+# 🔹 Real Magento Examples
+
+1. **Product Attributes**
+
+   * Accessed via `__get()` / `__set()` → no need to define 500+ properties manually.
+
+   ```php
+   $product->getCustomAttribute('color');
+   $product->setCustomAttribute('color', 'red');
+   ```
+
+2. **Repositories & Data Objects**
+
+   * `__call()` used for `getXxx` / `setXxx` dynamic methods.
+
+3. **Caching**
+
+   * `__sleep()` / `__wakeup()` control what’s saved when objects are cached.
+
+4. **Product Duplication**
+
+   * `__clone()` ensures a new product copy with a new ID.
+
+---
