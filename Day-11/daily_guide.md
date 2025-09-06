@@ -283,3 +283,122 @@ try {
 6. Show safe message to user.
 
 ---
+Perfect 🙂 Let’s go deep into **Custom Exceptions in PHP** step by step.
+
+---
+
+## 🔹 What is a Custom Exception?
+
+A **custom exception** is a class you create yourself by **extending** PHP’s built-in `Exception` class.
+This allows you to give **specific names** and behaviors to different error conditions in your application.
+
+---
+
+## 🔹 Why do we use Custom Exceptions?
+
+* To make error handling **more meaningful**
+* To separate **different error types** (e.g., `StockException`, `PaymentException`)
+* To add **custom properties/methods** inside your exception
+
+---
+
+## 🔹 Example 1: Basic Custom Exception
+
+```php
+<?php
+class StockException extends Exception {}
+
+try {
+    $qty = -5;
+
+    if ($qty < 0) {
+        throw new StockException("Quantity cannot be negative: $qty");
+    }
+
+    echo "Order placed successfully!";
+} catch (StockException $e) {
+    echo "Stock Error: " . $e->getMessage();
+}
+```
+
+👉 Output:
+
+```
+Stock Error: Quantity cannot be negative: -5
+```
+
+---
+
+## 🔹 Example 2: Multiple Custom Exceptions
+
+```php
+<?php
+class StockException extends Exception {}
+class PaymentException extends Exception {}
+
+try {
+    $paymentSuccess = false;
+    $qty = 2;
+
+    if ($qty <= 0) {
+        throw new StockException("Invalid stock quantity: $qty");
+    }
+
+    if (!$paymentSuccess) {
+        throw new PaymentException("Payment failed, please retry.");
+    }
+
+    echo "Order placed successfully!";
+} catch (StockException $e) {
+    echo "Stock Issue → " . $e->getMessage();
+} catch (PaymentException $e) {
+    echo "Payment Issue → " . $e->getMessage();
+}
+```
+
+---
+
+## 🔹 Example 3: Custom Exception with Extra Data
+
+You can add **extra properties** to your exception:
+
+```php
+<?php
+class OrderException extends Exception {
+    private $orderId;
+
+    public function __construct($message, $orderId) {
+        $this->orderId = $orderId;
+        parent::__construct($message);
+    }
+
+    public function getOrderId() {
+        return $this->orderId;
+    }
+}
+
+try {
+    throw new OrderException("Order not found", 12345);
+} catch (OrderException $e) {
+    echo "Error: " . $e->getMessage() . "\n";
+    echo "Order ID: " . $e->getOrderId();
+}
+```
+
+👉 Output:
+
+```
+Error: Order not found
+Order ID: 12345
+```
+
+---
+
+## 🔹 Key Points
+
+1. Custom exception = **class extends `Exception`**
+2. Can have **different catch blocks** for different custom exceptions
+3. Can add **extra properties/methods** for more context
+4. Helps in **clean error handling** in large applications (like Magento or Laravel)
+
+---
