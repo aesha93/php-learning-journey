@@ -1,0 +1,285 @@
+Perfect 👍 Let’s move step by step.
+For this stage, we’ll **focus only on the given concepts**:
+
+* Namespace declaration
+* `use` keyword
+* Autoloading
+* try-catch blocks
+* Exceptions
+* Custom exceptions
+* Logging
+
+We’ll use **arrays as data holders** (like products, orders, or shipping).
+Let’s begin!
+
+---
+
+# 🧩 Concepts Explained
+
+### 1. Namespace Declaration
+
+* **Plain definition**: A namespace is like a "folder" for your PHP classes, functions, and constants. It prevents name conflicts when different parts of code have the same class names.
+* **Syntax**:
+
+  ```php
+  <?php
+  namespace MyApp\Order;
+
+  class OrderManager {
+      // code here
+  }
+  ```
+* **Why use it?**
+  Imagine Magento core has a `Product` class, and you also make your own `Product` class. Namespaces avoid conflicts.
+* **Common mistake**: Forgetting `namespace` at the top, or mixing multiple `namespace` declarations in one file (bad practice).
+* **Best practice**: One namespace per file, always at the top.
+
+---
+
+### 2. `use` Keyword
+
+* **Plain definition**: `use` lets you import a class from another namespace so you don’t have to write the full namespace each time.
+* **Example**:
+
+  ```php
+  <?php
+  namespace MyApp;
+
+  use Magento\Catalog\Product; // import class
+
+  $p = new Product(); // we don’t need to write Magento\Catalog\Product every time
+  ```
+* **Common mistake**: Forgetting `use` → then PHP doesn’t recognize the class.
+* **Best practice**: Group imports neatly at the top of the file.
+
+---
+
+### 3. Autoloading
+
+* **Plain definition**: PHP automatically loads classes when you use them, instead of requiring you to manually `include` files.
+* **Composer Autoloader (Magento style)**: Magento uses Composer’s autoloader. When you run `composer install`, it generates a file `vendor/autoload.php`.
+* **Simple Example**:
+
+  ```php
+  <?php
+  require 'vendor/autoload.php'; // Composer’s autoloader
+  ```
+* **Common mistake**: Forgetting `require 'vendor/autoload.php';` when using external packages.
+* **Best practice**: Rely on autoloading rather than `require`/`include`.
+
+---
+
+### 4. Try-Catch Blocks
+
+* **Plain definition**: A way to "try" code and "catch" errors if something goes wrong.
+* **Example**:
+
+  ```php
+  try {
+      $price = -10;
+      if ($price < 0) {
+          throw new Exception("Invalid product price");
+      }
+  } catch (Exception $e) {
+      echo "Error: " . $e->getMessage();
+  }
+  ```
+* **Output**:
+
+  ```
+  Error: Invalid product price
+  ```
+* **Best practice**: Catch only the exceptions you expect, don’t wrap everything blindly in try-catch.
+
+---
+
+### 5. Exceptions
+
+* **Plain definition**: An "exception" is a special error object that can be thrown and caught.
+* **Example**:
+
+  ```php
+  throw new Exception("Something went wrong");
+  ```
+* **Common mistake**: Using `die()` or `echo` instead of exceptions. Exceptions give better error handling.
+* **Best practice**: Use exceptions for unexpected conditions, not for normal flow.
+
+---
+
+### 6. Custom Exceptions
+
+* **Plain definition**: You can make your own exception class for specific errors.
+* **Example**:
+
+  ```php
+  class ProductException extends Exception {}
+
+  try {
+      throw new ProductException("Product not found");
+  } catch (ProductException $e) {
+      echo $e->getMessage();
+  }
+  ```
+* **Why?** This makes error handling clearer. You can distinguish product errors from shipping errors.
+* **Best practice**: Create custom exceptions per domain area (ProductException, OrderException, etc.).
+
+---
+
+### 7. Logging
+
+* **Plain definition**: Logging means writing messages to a file instead of showing them on screen. Useful for debugging in production.
+* **Example** (simple PHP log):
+
+  ```php
+  error_log("Order failed: invalid payment", 3, "app.log");
+  ```
+
+  * `3` = append to a custom log file.
+  * `"app.log"` = the log file.
+* **Magento note**: In Magento, you’d use `\Psr\Log\LoggerInterface`. But here we stick to basic `error_log()`.
+* **Best practice**: Always log errors, don’t just echo them.
+
+---
+
+# 📝 Exercises
+
+### Exercise 1: Validate Product Price
+
+**Task**:
+You have an array representing a product:
+
+```php
+$product = [
+    "id" => 101,
+    "name" => "T-shirt",
+    "price" => -250
+];
+```
+
+If the price is negative, throw an `Exception`. Catch it and log the error.
+
+**Solution**:
+
+```php
+<?php
+$product = [
+    "id" => 101,
+    "name" => "T-shirt",
+    "price" => -250
+];
+
+try {
+    if ($product["price"] < 0) {
+        throw new Exception("Invalid price for product ID " . $product["id"]);
+    }
+    echo "Product is valid.";
+} catch (Exception $e) {
+    error_log($e->getMessage(), 3, "app.log");
+    echo "Error handled. Check log.";
+}
+```
+
+**Step-by-step explanation**:
+
+1. Product array has a negative price.
+2. Inside `try`, we check condition.
+3. If negative → throw Exception.
+4. `catch` receives it, logs error in `app.log`.
+5. User sees `"Error handled. Check log."`.
+
+---
+
+### Exercise 2: Custom Exception for Orders
+
+**Task**:
+Array of order:
+
+```php
+$order = [
+    "id" => 5001,
+    "status" => "pending_payment"
+];
+```
+
+If `status` is `"pending_payment"`, throw a **custom exception** `OrderException`. Catch it and print the message.
+
+**Solution**:
+
+```php
+<?php
+class OrderException extends Exception {}
+
+$order = [
+    "id" => 5001,
+    "status" => "pending_payment"
+];
+
+try {
+    if ($order["status"] === "pending_payment") {
+        throw new OrderException("Order #" . $order["id"] . " is not paid yet.");
+    }
+    echo "Order is confirmed.";
+} catch (OrderException $e) {
+    echo "Custom Exception Caught: " . $e->getMessage();
+}
+```
+
+**Step-by-step explanation**:
+
+1. We make `OrderException` (extends `Exception`).
+2. We check order’s status.
+3. If `"pending_payment"` → throw custom exception.
+4. Catch specifically `OrderException`.
+5. Print message.
+
+---
+
+### Exercise 3: Shipping Method Validation with Namespace + Logging
+
+**Task**:
+We define a namespace `MyApp\Shipping`.
+We check if the shipping method exists in array:
+
+```php
+$shipping = [
+    "id" => 201,
+    "method" => ""
+];
+```
+
+If method is empty, throw `ShippingException`. Catch and log.
+
+**Solution**:
+
+```php
+<?php
+namespace MyApp\Shipping;
+
+class ShippingException extends \Exception {}
+
+$shipping = [
+    "id" => 201,
+    "method" => ""
+];
+
+try {
+    if (empty($shipping["method"])) {
+        throw new ShippingException("Shipping method missing for shipment #" . $shipping["id"]);
+    }
+    echo "Shipping method is valid.";
+} catch (ShippingException $e) {
+    error_log($e->getMessage(), 3, "shipping.log");
+    echo "Error handled. Check shipping.log.";
+}
+```
+
+**Step-by-step explanation**:
+
+1. We declare namespace `MyApp\Shipping`.
+2. Create `ShippingException`.
+3. Check if `method` is empty.
+4. If yes, throw exception.
+5. Catch → log to `shipping.log`.
+6. Show safe message to user.
+
+---
