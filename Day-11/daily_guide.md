@@ -402,3 +402,156 @@ Order ID: 12345
 4. Helps in **clean error handling** in large applications (like Magento or Laravel)
 
 ---
+
+## 🔹 How to Trace Errors in PHP
+
+### 1. **Basic Error Message**
+
+When you `catch` an exception, you can use:
+
+```php
+$e->getMessage();
+```
+
+👉 Gives only the message (e.g., `"Invalid price for SKU A"`).
+
+---
+
+### 2. **File and Line Number**
+
+To know *where* the error happened:
+
+```php
+$e->getFile();
+$e->getLine();
+```
+
+👉 Useful for debugging *which file & line number* caused the problem.
+
+---
+
+### 3. **Stack Trace**
+
+To see the *full path of execution* (all functions that led to the error):
+
+```php
+$e->getTrace();
+```
+
+* Returns an **array** with detailed call info.
+* Useful in complex apps like Magento, where many functions call each other.
+
+Or in **human-readable string** form:
+
+```php
+$e->getTraceAsString();
+```
+
+---
+
+### 4. **Putting It Together**
+
+```php
+try {
+    function processOrder($order) {
+        if ($order['qty'] <= 0) {
+            throw new Exception("Invalid quantity for SKU {$order['sku']}");
+        }
+    }
+
+    $order = ['sku' => 'ITEM1', 'qty' => 0];
+    processOrder($order);
+
+} catch (Exception $e) {
+    echo "Error Message: " . $e->getMessage() . "<br>";
+    echo "In File: " . $e->getFile() . "<br>";
+    echo "At Line: " . $e->getLine() . "<br>";
+    echo "Trace: <pre>" . $e->getTraceAsString() . "</pre>";
+}
+```
+Perfect timing 👍 You’ve learned **how to trace errors**, now let’s go one step further:
+
+# 🔎 How to Debug Errors in PHP (Beginner-Friendly)
+
+Debugging = finding **what went wrong, where, and why**.
+PHP gives you different tools and techniques.
+
+---
+
+## 1. **Enable Error Reporting**
+
+By default, PHP may **hide errors**. To see them:
+
+```php
+error_reporting(E_ALL);       // report ALL errors, warnings, notices
+ini_set('display_errors', 1); // show errors on screen (good for development)
+```
+
+👉 Use this only in **development**.
+In **production**, log errors instead:
+
+```php
+ini_set('log_errors', 1);
+ini_set('error_log', "php_errors.log");
+```
+
+---
+
+## 2. **Use var\_dump() or print\_r()**
+
+When debugging arrays or variables:
+
+```php
+$cart = ['sku'=>'ITEM1', 'price'=>100];
+var_dump($cart);   // shows type + details
+print_r($cart);    // shows structure in readable format
+```
+
+👉 Wrap in `<pre>` for neat output:
+
+```php
+echo "<pre>";
+print_r($cart);
+echo "</pre>";
+```
+
+---
+
+## 3. **Use Exceptions for Debugging**
+
+Wrap risky code in try-catch and inspect the exception:
+
+```php
+try {
+    throw new Exception("Something failed");
+} catch (Exception $e) {
+    var_dump($e);  // shows full object with message, file, line, trace
+}
+```
+
+---
+
+## 4. **Debug with Logging**
+
+Instead of printing errors to the screen, **log them**:
+
+```php
+error_log("Debugging cart data: " . print_r($cart, true), 3, "debug.log");
+```
+
+👉 `print_r($cart, true)` converts array to string for logging.
+
+---
+
+## 5. **Step Debugging with Xdebug (Advanced Tool)**
+
+* Xdebug is a PHP extension that lets you:
+
+  * Set breakpoints
+  * Step through code line by line
+  * Inspect variables at runtime
+* Works with IDEs like PhpStorm / VSCode.
+
+*(We won’t dive deep yet since you’re beginner stage — but keep this in mind as your next milestone in professional debugging.)*
+
+---

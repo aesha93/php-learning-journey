@@ -547,25 +547,62 @@
 //     echo "Payment Issue → " . $e->getMessage();
 // }
 
-class OrderException extends Exception {
-    private $orderId;
+// class OrderException extends Exception {
+//     private $orderId;
 
-    public function __construct($message, $orderId) {
-        $this->orderId = $orderId;
-        parent::__construct($message);
-    }
+//     public function __construct($message, $orderId) {
+//         $this->orderId = $orderId;
+//         parent::__construct($message);
+//     }
 
-    public function getOrderId() {
-        return $this->orderId;
-    }
-}
+//     public function getOrderId() {
+//         return $this->orderId;
+//     }
+// }
+
+// try {
+//     throw new OrderException("Order not found", 12345);
+// } catch (OrderException $e) {
+//     echo "Error: " . $e->getMessage() . "\n";
+//     echo "Order ID: " . $e->getOrderId();
+// }
+
+// try {
+//     throw new Exception("Something went wrong!");
+// } catch (Exception $e) {
+//     error_log("Error: " . $e->getMessage(), 3, "app_errors.log");
+//     echo "Error handled gracefully!";
+// }
+
+class InvalidQtyException extends Exception {}
+class InvalidPriceException extends Exception {}
+
+$order = [
+    ['sku' => 'A', 'price' => 100, 'qty' => 2],
+    ['sku' => 'B', 'price' => -50, 'qty' => 1], // invalid
+];
 
 try {
-    throw new OrderException("Order not found", 12345);
-} catch (OrderException $e) {
-    echo "Error: " . $e->getMessage() . "\n";
-    echo "Order ID: " . $e->getOrderId();
+    foreach ($order as $item) {
+        if ($item['qty'] <= 0) {
+            throw new InvalidQtyException("Invalid quantity for SKU {$item['sku']}");
+        }
+        if ($item['price'] <= 0) {
+            throw new InvalidPriceException("Invalid price for SKU {$item['sku']}");
+        }
+    }
+    echo "Order validated successfully!";
+} catch (InvalidQtyException $e) {
+    error_log("[QTY ERROR] " . $e->getMessage() . "\n", 3, "order_errors.log");
+    echo "Order failed: quantity issue.<br>";
+} catch (InvalidPriceException $e) {
+    error_log("[PRICE ERROR] " . $e->getMessage() . "\n", 3, "order_errors.log");
+    echo "Order failed: price issue.<br>";
+} catch (Exception $e) {
+    error_log("[GENERAL ERROR] " . $e->getMessage() . "\n", 3, "order_errors.log");
+    echo "Order failed due to unexpected error.<br>";
+} finally {
+    echo "Validation process completed.<br>";
 }
-
 
 ?>
