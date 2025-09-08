@@ -555,3 +555,139 @@ error_log("Debugging cart data: " . print_r($cart, true), 3, "debug.log");
 *(We won’t dive deep yet since you’re beginner stage — but keep this in mind as your next milestone in professional debugging.)*
 
 ---
+
+# 🔹 What is Autoloading in PHP?
+
+Normally, if you want to use a class in PHP, you must **include/require** its file:
+
+```php
+require 'MyClass.php';
+
+$object = new MyClass();
+```
+
+❌ Problem: In big applications (like Magento, Laravel, Symfony), there are **thousands of classes**.
+Manually including files everywhere would be messy and unmanageable.
+
+👉 **Autoloading** solves this:
+PHP automatically **loads the class file when the class is first used**, without you having to `require` it manually.
+
+---
+
+# 🔹 How Autoloading Works
+
+### ✅ Example 1: Using `spl_autoload_register`
+
+```php
+<?php
+spl_autoload_register(function ($className) {
+    $file = __DIR__ . '/' . str_replace('\\', '/', $className) . '.php';
+    if (file_exists($file)) {
+        require $file;
+    }
+});
+
+// No need to require manually
+$hello = new MyApp\Models\Hello();
+```
+
+Explanation:
+
+* `spl_autoload_register()` lets you define a function to **map class names → file paths**.
+* When `new MyApp\Models\Hello()` is called, PHP checks:
+  👉 Is `Hello` already loaded?
+  👉 If not, it calls the registered autoloader.
+  👉 The function converts the namespace `MyApp\Models\Hello` into `MyApp/Models/Hello.php` and includes it.
+
+---
+
+# 🔹 Example 2: PSR-4 Autoloading (Modern Standard)
+
+Most frameworks (Magento, Laravel, Symfony) follow **PSR-4 Autoloading Standard**.
+
+In `composer.json`:
+
+```json
+"autoload": {
+    "psr-4": {
+        "Vendor\\Module\\": "app/code/Vendor/Module/"
+    }
+}
+```
+
+* This tells Composer:
+
+  * Whenever you use `Vendor\Module\ClassName`,
+  * Look for the file in `app/code/Vendor/Module/ClassName.php`.
+
+Then run:
+
+```bash
+composer dump-autoload
+```
+
+✅ Now you can use classes without `require`.
+
+---
+
+# 🔹 Example in Magento 2
+
+Let’s say you create:
+
+`app/code/Vendor/Module/Model/Hello.php`
+
+```php
+<?php
+namespace Vendor\Module\Model;
+
+class Hello
+{
+    public function getMessage()
+    {
+        return "Hello Magento!";
+    }
+}
+```
+
+Now in a Controller:
+
+```php
+<?php
+namespace Vendor\Module\Controller\Index;
+
+use Vendor\Module\Model\Hello;  // we just import
+
+class Index extends \Magento\Framework\App\Action\Action
+{
+    protected $hello;
+
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        Hello $hello
+    ) {
+        $this->hello = $hello;
+        parent::__construct($context);
+    }
+
+    public function execute()
+    {
+        echo $this->hello->getMessage();
+    }
+}
+```
+
+👉 Notice:
+
+* We **never did `require 'Hello.php'`.**
+* Autoloading (via Composer + Magento) automatically loads the file when `Hello` is first used.
+
+---
+
+# 🔹 Why Autoloading is Important
+
+* Removes need for manual `require`/`include`.
+* Keeps code **cleaner and scalable**.
+* Works perfectly with **namespaces** (every namespace maps to a folder).
+* Magento uses Composer autoloading to load **core classes and custom modules**.
+
+---
