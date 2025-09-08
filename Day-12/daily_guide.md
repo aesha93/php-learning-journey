@@ -278,7 +278,213 @@ exit;
 * Store minimal sensitive data (user id, role).
 * Use HTTPS so the session cookie is not exposed.
 
-**Tiny practice:** Implement a dummy login (hardcoded user) that creates `$_SESSION['username']`, test that regenerating ID changes the session id, and test the 30-minute timeout (reduce to 30 seconds for testing).
+---
+
+## 1. What is a Session?
+
+* A **session** is a way to store information (variables) across multiple pages for a single user.
+* Unlike cookies (which are stored in the browser), **session data is stored on the server**.
+* Each visitor gets a unique **Session ID** (usually saved in a cookie named `PHPSESSID`).
+
+👉 Example use cases:
+
+* User login system (remember which user is logged in).
+* Shopping cart (store selected items).
+* Temporary messages (success/error after form submission).
+
+---
+
+## 2. Starting a Session
+
+Use `session_start()` at the very top of your PHP file (before any HTML output).
+
+```php
+<?php
+session_start(); // must be first thing in the script
+
+$_SESSION["username"] = "Aesha";
+$_SESSION["role"] = "Admin";
+
+echo "Session variables are set.";
+?>
+```
+
+---
+
+## 3. Accessing Session Variables
+
+On another page:
+
+```php
+<?php
+session_start();
+
+echo "Username is " . $_SESSION["username"]; 
+echo "Role is " . $_SESSION["role"];
+?>
+```
+
+---
+
+## 4. Modifying Session Variables
+
+You can update them easily:
+
+```php
+<?php
+session_start();
+
+$_SESSION["role"] = "Editor"; // change role
+?>
+```
+
+---
+
+## 5. Deleting Session Variables
+
+### Remove a single variable:
+
+```php
+<?php
+session_start();
+unset($_SESSION["role"]);
+?>
+```
+
+### Remove all session variables:
+
+```php
+<?php
+session_start();
+session_unset();
+```
+
+### Destroy the entire session:
+
+```php
+<?php
+session_start();
+session_destroy(); // deletes session data from server
+?>
+```
+
+⚠️ Note: `session_destroy()` does not unset the `$_SESSION` array immediately. You may need `session_unset()` + refresh.
+
+---
+
+## 6. Session Configuration
+
+* Default session storage = server temporary directory.
+* You can configure in `php.ini`:
+
+  ```ini
+  session.gc_maxlifetime = 1440   ; session lifetime in seconds
+  session.save_path = "/var/www/sessions" ; custom directory
+  ```
+
+---
+
+## 7. Example: Simple Login with Session
+
+```php
+<?php
+// login.php
+session_start();
+
+if ($_POST["username"] == "admin" && $_POST["password"] == "1234") {
+    $_SESSION["loggedin"] = true;
+    $_SESSION["username"] = $_POST["username"];
+    header("Location: dashboard.php");
+} else {
+    echo "Invalid login!";
+}
+?>
+```
+
+```php
+<?php
+// dashboard.php
+session_start();
+
+if (!isset($_SESSION["loggedin"])) {
+    echo "Please login first!";
+    exit;
+}
+
+echo "Welcome, " . $_SESSION["username"];
+?>
+```
+
+---
+
+✅ **Summary**
+
+* Start session → `session_start()`
+* Store → `$_SESSION['key'] = value`
+* Access → `$_SESSION['key']`
+* Delete → `unset()` or `session_destroy()`
+
+---
+
+##  Where to see it?
+
+### 1. In Browser → Cookies
+
+* Open your browser (Chrome/Firefox/Edge).
+* Right-click → **Inspect** → **Application** (or Storage in Firefox).
+* Look under **Cookies** for your website.
+* You’ll see a cookie named:
+
+  ```
+  PHPSESSID = abcd1234efgh5678...
+  ```
+
+  That’s your **session ID**.
+
+👉 This ID lets PHP know which session file on the server belongs to you.
+
+---
+
+### 2. On the Server → Session Files
+
+By default, PHP saves sessions as files in your system’s **temporary folder**:
+
+* On **Linux/Mac**:
+  `/tmp/sess_<session_id>`
+
+* On **Windows (XAMPP/WAMP)**:
+  `C:\xampp\tmp\sess_<session_id>`
+  or
+  `C:\wamp64\tmp\sess_<session_id>`
+
+Inside that file, you’ll find something like:
+
+```
+username|s:5:"Aesha";role|s:5:"Admin";
+```
+
+That’s how PHP stores `$_SESSION` data.
+
+---
+
+### 3. Debugging in PHP
+
+You can also dump the session in your PHP page:
+
+```php
+<?php
+session_start();
+print_r($_SESSION);
+?>
+```
+
+---
+
+✅ **Summary**
+
+* Browser only stores `PHPSESSID` cookie.
+* Actual data is on server in session storage (files or DB).
+* You can check `$_SESSION` in PHP or look into session files.
 
 ---
 
@@ -327,6 +533,7 @@ setcookie('remember_user', '', time() - 3600, '/');
 **Tiny practice:** Implement a “Remember me” checkbox that sets a cookie token and uses it to auto-login (store token+user\_id in DB).
 
 ---
+
 
 # Password Hashing 
 
@@ -442,3 +649,160 @@ if (!hash_equals($_SESSION['csrf'] ?? '', $_POST['csrf'] ?? '')) die('Invalid CS
 * [ ] Are error messages hidden from users?
 
 **Tiny practice:** Build a small login + notes app and deliberately try to exploit one vulnerability (e.g., XSS by submitting `<script>alert(1)</script>` as a note). Then fix it with `htmlspecialchars` and confirm the exploit no longer runs.
+Perfect 👏 Let’s go **deep into CSRF (Cross-Site Request Forgery) Protection in PHP**.
+
+---
+
+# 🔴 1. What is CSRF?
+
+**CSRF (Cross-Site Request Forgery)** is an attack where a malicious site tricks a logged-in user into performing an action on another site **without their knowledge**.
+
+👉 Example scenario:
+
+1. You are logged into **your bank** (session is active).
+2. Attacker sends you an email with a link/image that secretly **submits a money transfer request**.
+3. Since your browser still has a **valid session cookie**, the bank thinks *you* made the request.
+4. Money is transferred without your consent.
+
+---
+
+# ⚠️ 2. Why is it Dangerous?
+
+* It exploits the fact that **browsers automatically send cookies** with requests.
+* Attackers don’t need to steal your password, just trick your session into doing something.
+
+---
+
+# ✅ 3. How to Protect Against CSRF?
+
+The main defense:
+👉 Use a **CSRF token** (unique, secret, unpredictable string) in each form/request.
+
+---
+
+## Step 1: Generate CSRF Token
+
+When showing a form, generate a random token and store it in the **session**.
+
+```php
+<?php
+session_start();
+
+// If token not set, create one
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+?>
+```
+
+---
+
+## Step 2: Add Token to Form
+
+Put it in a hidden field:
+
+```html
+<form method="post" action="transfer.php">
+    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+    Amount: <input type="text" name="amount">
+    <button type="submit">Transfer</button>
+</form>
+```
+
+---
+
+## Step 3: Verify Token on Submit
+
+In `transfer.php`, check that the submitted token matches the session token:
+
+```php
+<?php
+session_start();
+
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    die("CSRF attack detected!");
+}
+
+echo "Transfer successful!";
+?>
+```
+
+# 🔒 4. Security Enhancements
+
+1. **Regenerate token per request**
+
+   ```php
+   $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+   ```
+
+   This ensures tokens can’t be reused.
+
+2. **Set token expiry**
+
+   ```php
+   $_SESSION['csrf_token_time'] = time();
+   if (time() - $_SESSION['csrf_token_time'] > 300) {
+       die("CSRF token expired!");
+   }
+   ```
+
+3. **Use SameSite cookies**
+   In `php.ini` or session settings:
+
+   ```ini
+   session.cookie_samesite = Strict
+   ```
+
+   This prevents cookies from being sent in cross-site requests.
+
+4. **Double Submit Cookie (advanced)**
+
+   * Store token in both cookie and form.
+   * Server checks they match.
+   * Useful when sessions aren’t used.
+
+---
+
+# 📝 5. Real-World Example: Secure Comment Form
+
+```php
+<?php
+// comment_form.php
+session_start();
+$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+?>
+
+<form method="post" action="submit_comment.php">
+    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+    <textarea name="comment"></textarea>
+    <button type="submit">Post Comment</button>
+</form>
+```
+
+```php
+<?php
+// submit_comment.php
+session_start();
+
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    die("CSRF attack blocked!");
+}
+
+echo "Comment posted safely: " . htmlspecialchars($_POST['comment']);
+?>
+```
+
+---
+
+# ✅ 6. Summary
+
+* **CSRF = tricking user into sending unwanted requests.**
+* Main defense: **CSRF tokens** (secret, unique, session-based).
+* Best practices:
+
+  * Regenerate token per request.
+  * Expire tokens after some time.
+  * Use `SameSite` cookies.
+  * Escape outputs (`htmlspecialchars`) to prevent XSS (since XSS can bypass CSRF protections).
+
+---
