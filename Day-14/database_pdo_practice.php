@@ -483,4 +483,189 @@ $pdo = new PDO($dsn, $user, $pass, $options);
 //     echo "Failed: " . $e->getMessage();
 // }
 
+// Example with PDO
+
+// $dsn = "mysql:host=db;dbname=magento;charset=utf8mb4";
+// $user = "magento";
+// $pass = "magento";
+// try{
+//     $pdo = new PDO($dsn, $user, $pass);
+//     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+//     $pdo->beginTransaction();
+//     // Deduct 500 from account 1
+//     $stmt = $pdo->prepare("UPDATE accounts SET balance = balance - 500 WHERE id = :id");
+//     $stmt->execute([':id' => 1]);
+
+//     $stmt = $pdo->prepare("UPDATE accounts SET balance = balance + 500 WHERE id = :id");
+//     $stmt->execute([':id' => 2]);
+
+//     $pdo->commit();
+//     echo "Transaction successful!";
+
+// }catch (Exception $e) {
+//     $pdo->rollBack();
+//     echo "Transaction failed: " . $e->getMessage();
+// }
+
+// $dsn = "mysql:host=db;dbname=magento;charset=utf8mb4";
+// $user = "magento";
+// $pass = "magento";
+// try{
+//     $pdo = new PDO($dsn, $user , $pass);
+//     $pdo->setAttribute(PDO:ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+//     $pdo->beginTransaction();
+
+//         // Deduct 300 from Alice (id = 1)
+//     $stmt = $pdo->prepare("UPDATE accounts SET balance = balance - 300 WHERE id = :id");
+//     $stmt->execute([':id' => 1]);
+
+//     $stmt = $pdo->prepare("UPDATE accounts SET balance = balance + 300 WHERE id = :id");
+//     $stmt->execute([':id' => 999]); // wrong id
+
+//     $pdo->commit();
+//     echo "Transaction successful!";
+// }catch (Exception $e) {
+//     $pdo->rollBack();
+//     echo "Transaction failed, rolled back: " . $e->getMessage();
+// }
+
+$dsn = "mysql:host=db;dbname=magento;charset=utf8mb4";
+$user = "magento";
+// $pass = "magento";
+
+// $fromId = 1; // Alice
+// $toId   = 2; // Bob
+// $amount = 200.00;
+
+// try{
+
+//     $pdo = new PDO($dsn, $user, $pass,[
+//         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+//     ]);
+//         // Start transaction
+//     $pdo->beginTransaction();
+
+//     $stmt = $pdo->prepare("SELECT balance FROM accounts WHERE id = :id FOR UPDATE");
+//     $stmt->execute([':id' => $toId]);
+//     $toBalance = $stmt->fetchColumn();
+//     if ($toBalance === false) {
+//         throw new Exception("Recipient account not found (id={$toId})");
+//     }
+
+//     // 3) Deduct from sender
+//     $stmt = $pdo->prepare("UPDATE accounts SET balance = balance - :amt WHERE id = :id");
+//     $stmt->execute([':amt' => $amount, ':id' => $fromId]);
+//      if ($stmt->rowCount() !== 1) {
+//         throw new Exception("Failed to update sender balance");
+//      }
+
+//       // 4) Add to recipient
+//       $stmt = $pdo->prepare("UPDATE accounts SET balance = balance + :amt WHERE id = :id");
+//       $stmt->execute([':amt' => $amount, ':id' => $toId]);
+//       if($stmt->rowCount() !== 1){
+//         throw new Exception("Failed to update recipient balance");
+//       }
+
+//       // 5) Commit
+//       $pdo->commit();
+//       echo "Transfer successful: {$amount} from id={$fromId} → id={$toId}\n";
+// }catch (Exception $e) {
+//     if($pdo->inTransaction()){
+//         $pdo->rollBack();
+//     }
+//     echo "Transfer failed — rolled back. Reason: " . $e->getMessage() . "\n";
+// }
+
+// $dsn = "mysql:host=db;dbname=magento;charset=utf8mb4";
+// $user = "magento";
+// $pass = "magento";
+
+// try {
+//     $pdo->beginTransaction();
+
+//     $stmt = $pdo->prepare("INSERT INTO users (name, email) VALUES (:name, :email)");
+
+//     $stmt->execute([':name' => 'John', ':email' => 'john@test.com']);
+//     $stmt->execute([':name' => 'Mary', ':email' => 'mary@test.com']);
+
+//      $stmt->execute([':name' => 'Duplicate', ':email' => 'mary@test.com']);
+
+//      $pdo->commit();
+
+//          echo "All inserts successful\n";
+
+// }catch(Exception $e){
+//         if ($pdo->inTransaction()) $pdo->rollBack();
+//     echo "Insert failed — rolled back. Reason: " . $e->getMessage() . "\n";
+// }
+
+// $dsn = "mysql:host=db;dbname=magento;charset=utf8mb4";
+// $user = "magento";
+// $pass = "magento";
+
+// try {
+//     $pdo->beginTransaction();
+
+//     $stmt = $pdo->prepare("INSERT INTO users (name, email) VALUES (:name, :email)");
+
+//     $stmt->execute([':name' => 'John', ':email' => 'john@test.com']);
+//     $stmt->execute([':name' => 'Mary', ':email' => 'mary@test.com']);
+//     // The next line intentionally duplicates 'mary@test.com' to cause error
+//     $stmt->execute([':name' => 'Duplicate', ':email' => 'mary@test.com']);
+
+//     $pdo->commit();
+//     echo "All inserts successful\n";
+
+// } catch (Exception $e) {
+//     if ($pdo->inTransaction()) $pdo->rollBack();
+//     echo "Insert failed — rolled back. Reason: " . $e->getMessage() . "\n";
+// }
+
+$dsn = "mysql:host=db;dbname=magento;charset=utf8mb4";
+$user = "magento";
+$pass = "magento";
+
+$productId = 101;
+$qty = 2;
+
+try {
+    $pdo->beginTransaction();
+
+    // Lock the product row for update
+    $stmt = $pdo->prepare("SELECT stock FROM products WHERE id = :id FOR UPDATE");
+    $stmt->execute([':id' => $productId]);
+    $stock = $stmt->fetchColumn();
+
+    if ($stock === false) {
+        throw new Exception("Product not found (id={$productId})");
+    }
+    if ($stock < $qty) {
+        throw new Exception("Not enough stock. Available: {$stock}, requested: {$qty}");
+    }
+
+    // Insert order
+    $stmt = $pdo->prepare("INSERT INTO orders (product_id, qty) VALUES (:pid, :qty)");
+    $stmt->execute([':pid' => $productId, ':qty' => $qty]);
+    if ($stmt->rowCount() !== 1) {
+        throw new Exception("Failed to create order");
+    }
+
+    // Deduct stock
+    $stmt = $pdo->prepare("UPDATE products SET stock = stock - :qty WHERE id = :id");
+    $stmt->execute([':qty' => $qty, ':id' => $productId]);
+    if ($stmt->rowCount() !== 1) {
+        throw new Exception("Failed to update stock");
+    }
+
+    $pdo->commit();
+    echo "Order placed for product {$productId}, qty={$qty}\n";
+
+} catch (Exception $e) {
+    if ($pdo->inTransaction()) $pdo->rollBack();
+    echo "Order failed — rolled back. Reason: " . $e->getMessage() . "\n";
+}
+
+
 ?>
