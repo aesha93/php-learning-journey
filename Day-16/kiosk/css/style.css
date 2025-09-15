@@ -1,0 +1,3 @@
+body { font-family: Arial, sans-serif; padding:20px; }
+.product { border:1px solid #ccc; padding:10px; margin:10px; width:200px; display:inline-block; }
+button { padding:5px 10px; cursor:pointer; }
