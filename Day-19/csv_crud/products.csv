@@ -1,0 +1,6 @@
+id,name,price,status
+1,Product A,25.50,In Stock
+2,Product B,40.00,Out of Stock
+3,Product C,30.25,In Stock
+4,Product D,50,In Stock
+5,Product E,150,Out of Stock

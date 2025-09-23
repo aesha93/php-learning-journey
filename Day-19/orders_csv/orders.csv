@@ -1,0 +1,3 @@
+order_id,customer_name,product,quantity,status
+1,John Doe,Laptop,1,Shipped
+2,Jane Smith,Phone,2,Pending
