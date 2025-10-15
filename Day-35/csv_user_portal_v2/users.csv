@@ -1,0 +1,8 @@
+alice,alicepass
+bob,bobpass
+alice,duplicate
+carol,carolpass
+admin,$2y$10$wAfQG0OOTz3T7FvPgU6EauEWxrhOrjiQyjA2kDQLra.64ORLkTtby
+alice,$2y$10$Z.ZbZyERu3hUv7X.w.Cm7.j06b8NMbDWx5fEyZELiaaSSuV7JDkM6
+alice,$2y$10$/p/DG0Gem0O0VgcvrB6xxe1KBKArtrVyDR87w9CsbkaPucCz68fgS
+aesha@example.com,$2y$10$V8.gXLWZc2S/S/S4a8N6q.qo40Ed0JfshVEVrlSa44KjnKVKi3/bq

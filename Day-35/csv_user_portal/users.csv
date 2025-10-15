@@ -1,0 +1,5 @@
+name,email,password,photo
+admin,admin@example.com,$2y$10$o5E1KZGbRGku6stBf.x/pO0t/z7efi7BY2tc0HeO32pdZNXAPusLO, aesha.jpg
+aesha,aesha@example.com,$2y$10$ywDc/RGn2yGq4xPgdim.perjCKp5JQmyHB8NixHzBmMY/0SIj3UTu, aesha.jpg
+admin,admin@example.com,$2y$10$d7fp5iHJ2zdlVIZedihkVOVJbFwwdxMu4rJDGTQGugPc360UgAVTa, aesha.jpg
+niraj,niraj@example.com,$2y$10$CKDqIHDUcpHzWQd8IdMD.eg7E3mcwkDc3kkqmTzx9/IB0H0CXBDt., aesha.jpg
